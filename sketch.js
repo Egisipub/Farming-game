@@ -31,13 +31,15 @@ function drawLevel() {
 
       if (mouseX >= col * tileSize && mouseX < (col + 1) * tileSize &&
           mouseY >= row * tileSize && mouseY < (row + 1) * tileSize) {
-        stroke(255); // Red outline for hovered square
+        stroke(255); // outline
+        strokeWeight(2);
         mouseTileX = col;
         mouseTileY = row;
       }
 
       let squareType = whatSquare(row, col);
-
+     
+    
       if (squareType === "0") {
         fill(0, 255, 0); // Grass
         rect(col * tileSize, row * tileSize, tileSize, tileSize);
