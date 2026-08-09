@@ -1,4 +1,4 @@
-
+//
 const numTilesX = 20; 
 const numTilesY = 10;
 const tileSize = 72;
@@ -6,6 +6,8 @@ const tileSize = 72;
 
 var mouseTileX = 0;
 var mouseTileY = 0;
+
+var onFarm = false;
 
 level = [
   "00000000000000000000",
@@ -29,16 +31,24 @@ function drawLevel() {
   for (let row = 0; row < numTilesY; row++) {
     for (let col = 0; col < numTilesX; col++) {
 
+     
+
+      let squareType = whatSquare(row, col);
+
       if (mouseX >= col * tileSize && mouseX < (col + 1) * tileSize &&
-          mouseY >= row * tileSize && mouseY < (row + 1) * tileSize) {
+          mouseY >= row * tileSize && mouseY < (row + 1) * tileSize && squareType === "1") {
         stroke(255); // outline
         strokeWeight(2);
+
+        onFarm = true;
+
         mouseTileX = col;
         mouseTileY = row;
       }
-
-      let squareType = whatSquare(row, col);
-     
+      else {
+        noStroke();
+        onFarm = false;
+      }
     
       if (squareType === "0") {
         fill(0, 255, 0); // Grass
@@ -54,6 +64,14 @@ function drawLevel() {
   }
   
 }
+function mousePressed() {
+  if (mouseTileX >= 0 && mouseTileX < numTilesX && mouseTileY >= 0 && mouseTileY < numTilesY) {
+    if (onFarm) {
+      
+    }
+  }
+}
+
 async function setup() {
   createCanvas(1440, 720);
   noStroke();
