@@ -5,20 +5,22 @@ var mouseTileX = 0;
 var mouseTileY = 0; 
 var onFarm = false; 
 var seeds = []; 
-let coins = 25000; 
+let coins = 25; 
 var untilled = []; 
 var growthTimers = []; 
 var currentSeed = 1; 
-var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon,coinIcon; 
+var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon; 
 
-// 1. Define shop button screen positions and dimensions
-const shopBtnX = 10;
+// Tracks audio file loading state
+var bgMusic; 
+var audioStarted = false;
+
+const shopBtnX = 10; 
 const shopBtnY = 530; 
-const shopBtnSize = 96;
+const shopBtnSize = 96; 
 
 level = [ 
   "00000000000000000000", 
-  "00000000111111111100", 
   "00000000000000000000", 
   "00000000111111111100", 
   "00000000000000000000", 
@@ -26,6 +28,7 @@ level = [
   "00000000000000000000", 
   "00000000111111111100", 
   "00000000000000000000", 
+  "00000000111111111100", 
   "00000000000000000000" 
 ]; 
 
@@ -107,12 +110,16 @@ function keyPressed() {
 } 
 
 function mousePressed() { 
-  // 2. Check if the player clicked inside the shop button boundary
-  if (mouseX >= shopBtnX && mouseX <= shopBtnX + shopBtnSize && mouseY >= shopBtnY && mouseY <= shopBtnY + shopBtnSize) {
-    console.log("Shop Button Clicked!");
-    // You can trigger your shop UI menu state shift directly here later
-    return; // Stop running the rest of mousePressed so we don't accidentally click tiles underneath
-  }
+  // Native HTML5 browser audio activation system
+  if (bgMusic && !audioStarted) { 
+    bgMusic.play(); 
+    audioStarted = true; 
+  } 
+
+  if (mouseX >= shopBtnX && mouseX <= shopBtnX + shopBtnSize && mouseY >= shopBtnY && mouseY <= shopBtnY + shopBtnSize) { 
+    console.log("Shop Button Clicked!"); 
+    return; 
+  } 
 
   if (mouseTileX >= 0 && mouseTileX < numTilesX && mouseTileY >= 0 && mouseTileY < numTilesY) { 
     if (onFarm) { 
@@ -165,6 +172,11 @@ async function setup() {
   shopIcon = await loadImage('assets/shopIcon.png'); 
   coinIcon = await loadImage('assets/coinIcon.png'); 
 
+  // Native HTML5 initialization fixes async loading conflicts in v2.3.2
+  bgMusic = new Audio('assets/bgMusic.wav'); 
+  bgMusic.loop = true; 
+  bgMusic.volume = 0.5; 
+
   for (let row = 0; row < numTilesY; row++) { 
     seeds[row] = []; 
     untilled[row] = []; 
@@ -186,20 +198,14 @@ function draw() {
   textFont(customFont); 
   drawLevel(); 
 
-  // 3. Render the shop icon interface button image on screen
-  image(shopIcon, shopBtnX, shopBtnY, shopBtnSize, shopBtnSize);
-
-
-   // 4. Render the coin icon next to the coin count
-  image(coinIcon, 10, height - 80, 300, 75);
+  image(shopIcon, shopBtnX, shopBtnY, shopBtnSize, shopBtnSize); 
+  image(coinIcon, 10, height - 80, 300, 75); 
 
   stroke(255); 
   strokeWeight(4); 
   textSize(34); 
   fill(0); 
-  text( coins + " coins", 20, height - 30); 
-
- 
+  text(coins + " coins", 20, height - 30); 
 
   if (currentSeed === 1) { 
     text("carrot seed (5 coins)", 10, 30); 
@@ -228,3 +234,6 @@ function draw() {
   } 
   noStroke(); 
 }
+
+
+//adwda
