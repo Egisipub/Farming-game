@@ -9,8 +9,12 @@ let coins = 25000;
 var untilled = []; 
 var growthTimers = []; 
 var currentSeed = 1; 
+var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon,coinIcon; 
 
-var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown; 
+// 1. Define shop button screen positions and dimensions
+const shopBtnX = 10;
+const shopBtnY = 530; 
+const shopBtnSize = 96;
 
 level = [ 
   "00000000000000000000", 
@@ -56,7 +60,6 @@ function drawLevel() {
         image(grassSprite, x, y, tileSize, tileSize); 
       } else if (squareType === "1") { 
         image(farmlandSprite, x, y, tileSize, tileSize); 
-        
         if (untilled[row][col] === true) { 
           image(rockSprite, x, y, tileSize, tileSize); 
         } 
@@ -75,7 +78,6 @@ function drawLevel() {
           } 
           growthTimers[row][col]--; 
         } else { 
-          // Renders your mature assets once the timer hits 0
           if (seeds[row][col] === 1) { 
             image(carrotGrown, x + offset, y + offset, imgSize, imgSize); 
           } else if (seeds[row][col] === 2) { 
@@ -105,6 +107,13 @@ function keyPressed() {
 } 
 
 function mousePressed() { 
+  // 2. Check if the player clicked inside the shop button boundary
+  if (mouseX >= shopBtnX && mouseX <= shopBtnX + shopBtnSize && mouseY >= shopBtnY && mouseY <= shopBtnY + shopBtnSize) {
+    console.log("Shop Button Clicked!");
+    // You can trigger your shop UI menu state shift directly here later
+    return; // Stop running the rest of mousePressed so we don't accidentally click tiles underneath
+  }
+
   if (mouseTileX >= 0 && mouseTileX < numTilesX && mouseTileY >= 0 && mouseTileY < numTilesY) { 
     if (onFarm) { 
       if (untilled[mouseTileY][mouseTileX] === true) { 
@@ -126,7 +135,11 @@ function mousePressed() {
           let cost = currentSeed === 1 ? 5 : 30; 
           if (coins >= cost) { 
             plantSeed(); 
-            growthTimers[mouseTileY][mouseTileX] = 1200; 
+            if (currentSeed === 1) { 
+              growthTimers[mouseTileY][mouseTileX] = 1200; 
+            } else if (currentSeed === 2) { 
+              growthTimers[mouseTileY][mouseTileX] = 3000; 
+            } 
             coins -= cost; 
           } 
         } 
@@ -141,17 +154,16 @@ async function setup() {
   noSmooth(); 
 
   customFont = await loadFont('assets/font.ttf'); 
-
   carrotSprite = await loadImage('assets/carrotSeed.png'); 
   lettuceSprite = await loadImage('assets/lettuceSeed.png'); 
   grassSprite = await loadImage('assets/grass.png'); 
   farmlandSprite = await loadImage('assets/farmland.png'); 
   highlightSprite = await loadImage('assets/highlight.png'); 
   rockSprite = await loadImage('assets/rock.png'); 
-  
-  // Cleaned paths targeting assets/carrot.png and assets/lettuce.png
   carrotGrown = await loadImage('assets/carrot.png'); 
   lettuceGrown = await loadImage('assets/lettuce.png'); 
+  shopIcon = await loadImage('assets/shopIcon.png'); 
+  coinIcon = await loadImage('assets/coinIcon.png'); 
 
   for (let row = 0; row < numTilesY; row++) { 
     seeds[row] = []; 
@@ -168,18 +180,26 @@ async function setup() {
     } 
   } 
 } 
-//adf
+
 function draw() { 
   background(220); 
   textFont(customFont); 
   drawLevel(); 
 
+  // 3. Render the shop icon interface button image on screen
+  image(shopIcon, shopBtnX, shopBtnY, shopBtnSize, shopBtnSize);
+
+
+   // 4. Render the coin icon next to the coin count
+  image(coinIcon, 10, height - 80, 300, 75);
+
   stroke(255); 
   strokeWeight(4); 
-
-  textSize(24); 
+  textSize(34); 
   fill(0); 
-  text("Coins: " + coins, 10, height - 30); 
+  text( coins + " coins", 20, height - 30); 
+
+ 
 
   if (currentSeed === 1) { 
     text("carrot seed (5 coins)", 10, 30); 
@@ -206,5 +226,5 @@ function draw() {
       textAlign(LEFT, BASELINE); 
     } 
   } 
-  noStroke();
+  noStroke(); 
 }
