@@ -5,24 +5,26 @@ var mouseTileX = 0;
 var mouseTileY = 0; 
 var onFarm = false; 
 var seeds = []; 
-let coins = 99999; 
+let coins = 999999999999.0; 
+let formatedCoins = "0.0"; 
 var untilled = []; 
 var growthTimers = []; 
 var currentSeed = 1; 
-var carrotSprite, lettuceSprite, grassSprite, farmlandSprit, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIconIcon, itemIcon; 
-
-// Tracks audio file loading state
+var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon; 
 var bgMusic; 
-var audioStarted = false;
+var audioStarted = false; 
 
-const shopBtnX = 10; 
-const shopBtnY = 530; 
-const shopBtnSize = 96; 
-
+const seedBtnX = 550; 
+const seedBtnY = 10; 
+const seedBtnSize = 96; 
 
 const achiBtnX = 10; 
-const achiBtnY = 420; 
+const achiBtnY = 370; 
 const achiBtnSize = 96; 
+
+const shopBtnX = 10; 
+const shopBtnY = 490; 
+const shopBtnSize = 96; 
 
 level = [ 
   "22222222222222222222", 
@@ -63,7 +65,7 @@ function drawLevel() {
           highlightY = y; 
         } 
       } 
-      //tiles
+
       if (squareType === "0") { 
         image(grassSprite, x, y, tileSize, tileSize); 
       } else if (squareType === "1") { 
@@ -73,10 +75,8 @@ function drawLevel() {
         } 
       } else if (squareType === "2") { 
         image(fenceSprite, x, y, tileSize, tileSize); 
-      }
+      } 
 
-
-      //seeds
       if (seeds[row][col] !== 0) { 
         noStroke(); 
         let imgSize = tileSize * 0.8; 
@@ -119,7 +119,6 @@ function keyPressed() {
 } 
 
 function mousePressed() { 
-  // Native HTML5 browser audio activation system
   if (bgMusic && !audioStarted) { 
     bgMusic.play(); 
     audioStarted = true; 
@@ -132,6 +131,11 @@ function mousePressed() {
 
   if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY && mouseY <= achiBtnY + achiBtnSize) { 
     console.log("Achievements Button Clicked!"); 
+    return; 
+  } 
+
+  if (mouseX >= seedBtnX && mouseX <= seedBtnX + seedBtnSize && mouseY >= seedBtnY && mouseY <= seedBtnY + seedBtnSize) { 
+    console.log("Seed Button Clicked!"); 
     return; 
   } 
 
@@ -169,6 +173,23 @@ function mousePressed() {
   } 
 } 
 
+// 1. Updated formatMoney to truncate extra values without rounding up
+function formatMoney(amount) { 
+  if (amount >= 1000000000) { 
+    let truncated = Math.floor((amount / 1000000000) * 100) / 100;
+    return truncated.toFixed(2) + "B"; 
+  } else if (amount >= 1000000) { 
+    let truncated = Math.floor((amount / 1000000) * 100) / 100;
+    return truncated.toFixed(2) + "M"; 
+  } else if (amount >= 1000) { 
+    let truncated = Math.floor((amount / 1000) * 100) / 100;
+    return truncated.toFixed(2) + "K"; 
+  } 
+  // Keeps full accuracy to 2 decimal places for normal amounts
+  let truncatedNormal = Math.floor(amount * 100) / 100;
+  return truncatedNormal.toFixed(2); 
+} 
+
 async function setup() { 
   createCanvas(1440, 720); 
   noStroke(); 
@@ -185,11 +206,11 @@ async function setup() {
   lettuceGrown = await loadImage('assets/lettuce.png'); 
   shopIcon = await loadImage('assets/shopIcon.png'); 
   coinIcon = await loadImage('assets/coinIcon.png'); 
-  achievementsIcon = await loadImage('assets/achievementsIcon.png');
-  itemIcon = await loadImage('assets/itemIcon.png');
-  fenceSprite = await loadImage('assets/fence.png');
+  achievementsIcon = await loadImage('assets/achievementsIcon.png'); 
+  itemIcon = await loadImage('assets/itemIcon.png'); 
+  fenceSprite = await loadImage('assets/fence.png'); 
+  seedIcon = await loadImage('assets/seedIcon.png'); 
 
-  // Native HTML5 initialization fixes async loading conflicts in v2.3.2
   bgMusic = new Audio('assets/bgMusic.wav'); 
   bgMusic.loop = true; 
   bgMusic.volume = 0.5; 
@@ -215,26 +236,67 @@ function draw() {
   textFont(customFont); 
   drawLevel(); 
 
-  image(shopIcon, shopBtnX, shopBtnY, shopBtnSize, shopBtnSize); 
-  image(coinIcon, 10, height - 80, 300, 75); 
-  image(itemIcon, 10, 10, 450, 75); 
-  image(achievementsIcon, achiBtnX, achiBtnY, achiBtnSize, achiBtnSize); 
+  let currentSize, offset; 
 
-  stroke(255); 
-  strokeWeight(4); 
+  currentSize = shopBtnSize; 
+  offset = 0; 
+  if (mouseX >= shopBtnX && mouseX <= shopBtnX + shopBtnSize && mouseY >= shopBtnY && mouseY <= shopBtnY + shopBtnSize) { 
+    if (mouseIsPressed) { 
+      currentSize = shopBtnSize - 12; 
+      offset = 6; 
+    } else { 
+      currentSize = shopBtnSize + 12; 
+      offset = -6; 
+    } 
+  } 
+  image(shopIcon, shopBtnX + offset, shopBtnY + offset, currentSize, currentSize); 
+
+  currentSize = achiBtnSize; 
+  offset = 0; 
+  if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY && mouseY <= achiBtnY + achiBtnSize) { 
+    if (mouseIsPressed) { 
+      currentSize = achiBtnSize - 12; 
+      offset = 6; 
+    } else { 
+      currentSize = achiBtnSize + 12; 
+      offset = -6; 
+    } 
+  } 
+  image(achievementsIcon, achiBtnX + offset, achiBtnY + offset, currentSize, currentSize); 
+
+  currentSize = seedBtnSize; 
+  offset = 0; 
+  if (mouseX >= seedBtnX && mouseX <= seedBtnX + seedBtnSize && mouseY >= seedBtnY && mouseY <= seedBtnY + seedBtnSize) { 
+    if (mouseIsPressed) { 
+      currentSize = seedBtnSize - 12; 
+      offset = 6; 
+    } else { 
+      currentSize = seedBtnSize + 12; 
+      offset = -6; 
+    } 
+  } 
+  image(seedIcon, seedBtnX + offset, seedBtnY + offset, currentSize, currentSize); 
+
+  image(coinIcon, 10, height - 110, 420, 96); 
+  image(itemIcon, 10, 10, 525, 96); 
+
   textSize(34); 
-  fill(0); 
-
-  textAlign(RIGHT, BASELINE);
-  text(coins + " coins", 240, height - 30); 
-
-  textAlign(LEFT, BASELINE);
+  fill(173, 148, 139); 
+  formatedCoins = formatMoney(coins); 
+  
+  textAlign(RIGHT, BASELINE); 
+  text(formatedCoins + " coins", 335, height - 50); 
+  textAlign(LEFT, BASELINE); 
 
   if (currentSeed === 1) { 
-    text("carrot seed (5 coins)", 25, 50); 
+    text("carrot seed (5 coins)", 20, 65); 
   } else if (currentSeed === 2) { 
-    text("lettuce seed (30 coins)", 25, 52); 
+    text("lettuce seed (30 coins)", 20, 65); 
   } 
+  fill(0);
+  stroke(255);
+  strokeWeight(2);
+
 
   if (onFarm) { 
     let tooltipText = ""; 
@@ -249,7 +311,7 @@ function draw() {
     } 
 
     if (tooltipText !== "") { 
-      textSize(16); 
+      textSize(24); 
       textAlign(CENTER, BOTTOM); 
       text(tooltipText, mouseX, mouseY - 15); 
       textAlign(LEFT, BASELINE); 
@@ -257,5 +319,3 @@ function draw() {
   } 
   noStroke(); 
 }
-
-
