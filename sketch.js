@@ -168,7 +168,7 @@ async function setup() {
     } 
   } 
 } 
-
+//adf
 function draw() { 
   background(220); 
   textFont(customFont); 
@@ -206,5 +206,5 @@ function draw() {
       textAlign(LEFT, BASELINE); 
     } 
   } 
-  noStroke(); 
+  noStroke();
 }
