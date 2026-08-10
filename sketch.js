@@ -5,11 +5,11 @@ var mouseTileX = 0;
 var mouseTileY = 0; 
 var onFarm = false; 
 var seeds = []; 
-let coins = 25; 
+let coins = 99999; 
 var untilled = []; 
 var growthTimers = []; 
 var currentSeed = 1; 
-var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon; 
+var carrotSprite, lettuceSprite, grassSprite, farmlandSprit, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIconIcon, itemIcon; 
 
 // Tracks audio file loading state
 var bgMusic; 
@@ -19,8 +19,13 @@ const shopBtnX = 10;
 const shopBtnY = 530; 
 const shopBtnSize = 96; 
 
+
+const achiBtnX = 10; 
+const achiBtnY = 420; 
+const achiBtnSize = 96; 
+
 level = [ 
-  "00000000000000000000", 
+  "22222222222222222222", 
   "00000000000000000000", 
   "00000000111111111100", 
   "00000000000000000000", 
@@ -58,7 +63,7 @@ function drawLevel() {
           highlightY = y; 
         } 
       } 
-
+      //tiles
       if (squareType === "0") { 
         image(grassSprite, x, y, tileSize, tileSize); 
       } else if (squareType === "1") { 
@@ -66,8 +71,12 @@ function drawLevel() {
         if (untilled[row][col] === true) { 
           image(rockSprite, x, y, tileSize, tileSize); 
         } 
-      } 
+      } else if (squareType === "2") { 
+        image(fenceSprite, x, y, tileSize, tileSize); 
+      }
 
+
+      //seeds
       if (seeds[row][col] !== 0) { 
         noStroke(); 
         let imgSize = tileSize * 0.8; 
@@ -121,6 +130,11 @@ function mousePressed() {
     return; 
   } 
 
+  if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY && mouseY <= achiBtnY + achiBtnSize) { 
+    console.log("Achievements Button Clicked!"); 
+    return; 
+  } 
+
   if (mouseTileX >= 0 && mouseTileX < numTilesX && mouseTileY >= 0 && mouseTileY < numTilesY) { 
     if (onFarm) { 
       if (untilled[mouseTileY][mouseTileX] === true) { 
@@ -171,6 +185,9 @@ async function setup() {
   lettuceGrown = await loadImage('assets/lettuce.png'); 
   shopIcon = await loadImage('assets/shopIcon.png'); 
   coinIcon = await loadImage('assets/coinIcon.png'); 
+  achievementsIcon = await loadImage('assets/achievementsIcon.png');
+  itemIcon = await loadImage('assets/itemIcon.png');
+  fenceSprite = await loadImage('assets/fence.png');
 
   // Native HTML5 initialization fixes async loading conflicts in v2.3.2
   bgMusic = new Audio('assets/bgMusic.wav'); 
@@ -200,17 +217,23 @@ function draw() {
 
   image(shopIcon, shopBtnX, shopBtnY, shopBtnSize, shopBtnSize); 
   image(coinIcon, 10, height - 80, 300, 75); 
+  image(itemIcon, 10, 10, 450, 75); 
+  image(achievementsIcon, achiBtnX, achiBtnY, achiBtnSize, achiBtnSize); 
 
   stroke(255); 
   strokeWeight(4); 
   textSize(34); 
   fill(0); 
-  text(coins + " coins", 20, height - 30); 
+
+  textAlign(RIGHT, BASELINE);
+  text(coins + " coins", 240, height - 30); 
+
+  textAlign(LEFT, BASELINE);
 
   if (currentSeed === 1) { 
-    text("carrot seed (5 coins)", 10, 30); 
+    text("carrot seed (5 coins)", 25, 50); 
   } else if (currentSeed === 2) { 
-    text("lettuce seed (30 coins)", 10, 30); 
+    text("lettuce seed (30 coins)", 25, 52); 
   } 
 
   if (onFarm) { 
@@ -236,4 +259,3 @@ function draw() {
 }
 
 
-//adwda
