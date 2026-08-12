@@ -11,6 +11,9 @@ var untilled = [];
 var growthTimers = []; 
 var currentSeed = 1; 
 var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon; 
+
+
+
 var bgMusic; 
 var audioStarted = false; 
 
