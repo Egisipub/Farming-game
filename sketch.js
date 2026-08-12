@@ -10,24 +10,23 @@ let formatedCoins = "0.0";
 var untilled = []; 
 var growthTimers = []; 
 var currentSeed = 1; 
-var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon; 
-
-
-
+var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow; 
 var bgMusic; 
 var audioStarted = false; 
+var isShopOpen = false;
 
 const seedBtnX = 550; 
 const seedBtnY = 10; 
 const seedBtnSize = 96; 
-
 const achiBtnX = 10; 
 const achiBtnY = 370; 
 const achiBtnSize = 96; 
-
 const shopBtnX = 10; 
 const shopBtnY = 490; 
 const shopBtnSize = 96; 
+const backBtnX = 415; 
+const backBtnY = 520; 
+const backBtnSize = 56; 
 
 level = [ 
   "22222222222222222222", 
@@ -63,9 +62,11 @@ function drawLevel() {
         mouseTileX = col; 
         mouseTileY = row; 
         if (squareType === "1") { 
-          onFarm = true; 
-          highlightX = x; 
-          highlightY = y; 
+          if (!isShopOpen) {
+            onFarm = true; 
+            highlightX = x; 
+            highlightY = y; 
+          }
         } 
       } 
 
@@ -127,6 +128,14 @@ function mousePressed() {
     audioStarted = true; 
   } 
 
+  if (isShopOpen) {
+    if (mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
+      isShopOpen = false; 
+      console.log("Back Button Clicked! Closing Shop.");
+      return; 
+    }
+  }
+
   if (mouseX >= shopBtnX && mouseX <= shopBtnX + shopBtnSize && mouseY >= shopBtnY && mouseY <= shopBtnY + shopBtnSize) { 
     console.log("Shop Button Clicked!"); 
     return; 
@@ -138,9 +147,12 @@ function mousePressed() {
   } 
 
   if (mouseX >= seedBtnX && mouseX <= seedBtnX + seedBtnSize && mouseY >= seedBtnY && mouseY <= seedBtnY + seedBtnSize) { 
-    console.log("Seed Button Clicked!"); 
+    console.log("Seed Button Clicked! Opening Shop."); 
+    isShopOpen = true; 
     return; 
   } 
+
+  if (isShopOpen) return;
 
   if (mouseTileX >= 0 && mouseTileX < numTilesX && mouseTileY >= 0 && mouseTileY < numTilesY) { 
     if (onFarm) { 
@@ -176,20 +188,18 @@ function mousePressed() {
   } 
 } 
 
-// 1. Updated formatMoney to truncate extra values without rounding up
 function formatMoney(amount) { 
   if (amount >= 1000000000) { 
-    let truncated = Math.floor((amount / 1000000000) * 100) / 100;
+    let truncated = Math.floor((amount / 1000000000) * 100) / 100; 
     return truncated.toFixed(2) + "B"; 
   } else if (amount >= 1000000) { 
-    let truncated = Math.floor((amount / 1000000) * 100) / 100;
+    let truncated = Math.floor((amount / 1000000) * 100) / 100; 
     return truncated.toFixed(2) + "M"; 
   } else if (amount >= 1000) { 
-    let truncated = Math.floor((amount / 1000) * 100) / 100;
+    let truncated = Math.floor((amount / 1000) * 100) / 100; 
     return truncated.toFixed(2) + "K"; 
   } 
-  // Keeps full accuracy to 2 decimal places for normal amounts
-  let truncatedNormal = Math.floor(amount * 100) / 100;
+  let truncatedNormal = Math.floor(amount * 100) / 100; 
   return truncatedNormal.toFixed(2); 
 } 
 
@@ -213,6 +223,8 @@ async function setup() {
   itemIcon = await loadImage('assets/itemIcon.png'); 
   fenceSprite = await loadImage('assets/fence.png'); 
   seedIcon = await loadImage('assets/seedIcon.png'); 
+  backIcon = await loadImage('assets/backIcon.png'); 
+  shopWindow = await loadImage('assets/shopWindow.png'); 
 
   bgMusic = new Audio('assets/bgMusic.wav'); 
   bgMusic.loop = true; 
@@ -283,6 +295,24 @@ function draw() {
   image(coinIcon, 10, height - 110, 420, 96); 
   image(itemIcon, 10, 10, 525, 96); 
 
+  if (isShopOpen) {
+    image(shopWindow, 120, 135, 360, 450); 
+    
+    let backSize = backBtnSize;
+    let backOffset = 0;
+    if (mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
+      if (mouseIsPressed) {
+        backSize = backBtnSize - 8;
+        backOffset = 4;
+      } else {
+        backSize = backBtnSize + 8;
+        backOffset = -4;
+      }
+    }
+    image(backIcon, backBtnX + backOffset, backBtnY + backOffset, backSize, backSize); 
+  }
+
+
   textSize(34); 
   fill(173, 148, 139); 
   formatedCoins = formatMoney(coins); 
@@ -295,30 +325,27 @@ function draw() {
     text("carrot seed (5 coins)", 20, 65); 
   } else if (currentSeed === 2) { 
     text("lettuce seed (30 coins)", 20, 65); 
-  } 
+  }
+
   fill(0);
-  stroke(255);
-  strokeWeight(2);
-
-
-  if (onFarm) { 
-    let tooltipText = ""; 
-    if (untilled[mouseTileY][mouseTileX] === true) { 
-      tooltipText = "click to till farmland (20 coins)"; 
-    } else if (seeds[mouseTileY][mouseTileX] !== 0 && growthTimers[mouseTileY][mouseTileX] <= 0) { 
-      if (seeds[mouseTileY][mouseTileX] === 1) { 
-        tooltipText = "harvest carrot (get 50 coins)"; 
-      } else if (seeds[mouseTileY][mouseTileX] === 2) { 
-        tooltipText = "harvest lettuce (get 80 coins)"; 
-      } 
-    } 
-
-    if (tooltipText !== "") { 
-      textSize(24); 
-      textAlign(CENTER, BOTTOM); 
-      text(tooltipText, mouseX, mouseY - 15); 
-      textAlign(LEFT, BASELINE); 
-    } 
-  } 
-  noStroke(); 
+  if (onFarm) {
+    let tooltipText = "";
+    if (untilled[mouseTileY][mouseTileX] === true) {
+      tooltipText = "Click to till the soil (20 coins)";
+    } else if (seeds[mouseTileY][mouseTileX] !== 0 && growthTimers[mouseTileY][mouseTileX] <= 0) {
+      if (seeds[mouseTileY][mouseTileX] === 1) {
+        tooltipText = "harvest carrot (get 50 coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 2) {
+        tooltipText = "harvest lettuce (get 80 coins)";
+      }
+    }
+    if (tooltipText !== "") {
+      textSize(24);
+      fill(0);
+      textAlign(CENTER, CENTER);
+      text(tooltipText, mouseX, mouseY - 20);
+      textAlign(LEFT, BASELINE);
+    }
+  }
+  noStroke();
 }
