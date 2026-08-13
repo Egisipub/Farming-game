@@ -18,12 +18,15 @@ var isShopOpen = false;
 const seedBtnX = 550; 
 const seedBtnY = 10; 
 const seedBtnSize = 96; 
+
 const achiBtnX = 10; 
 const achiBtnY = 370; 
 const achiBtnSize = 96; 
+
 const shopBtnX = 10; 
 const shopBtnY = 490; 
 const shopBtnSize = 96; 
+
 const backBtnX = 415; 
 const backBtnY = 520; 
 const backBtnSize = 56; 
@@ -131,7 +134,7 @@ function mousePressed() {
   if (isShopOpen) {
     if (mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
       isShopOpen = false; 
-      console.log("Back Button Clicked! Closing Shop.");
+     
       return; 
     }
   }
@@ -147,7 +150,7 @@ function mousePressed() {
   } 
 
   if (mouseX >= seedBtnX && mouseX <= seedBtnX + seedBtnSize && mouseY >= seedBtnY && mouseY <= seedBtnY + seedBtnSize) { 
-    console.log("Seed Button Clicked! Opening Shop."); 
+    
     isShopOpen = true; 
     return; 
   } 
@@ -176,9 +179,9 @@ function mousePressed() {
           if (coins >= cost) { 
             plantSeed(); 
             if (currentSeed === 1) { 
-              growthTimers[mouseTileY][mouseTileX] = 1200; 
+              growthTimers[mouseTileY][mouseTileX] = 3600; //1 min
             } else if (currentSeed === 2) { 
-              growthTimers[mouseTileY][mouseTileX] = 3000; 
+              growthTimers[mouseTileY][mouseTileX] = 10800; //3 min
             } 
             coins -= cost; 
           } 
@@ -207,6 +210,10 @@ async function setup() {
   createCanvas(1440, 720); 
   noStroke(); 
   noSmooth(); 
+
+  frameRate(60);
+
+
 
   customFont = await loadFont('assets/font.ttf'); 
   carrotSprite = await loadImage('assets/carrotSeed.png'); 
@@ -328,8 +335,47 @@ function draw() {
   }
 
   fill(0);
+
+  
+  let btnTooltip = "";
+
+  
+  if (mouseX >= shopBtnX && mouseX <= shopBtnX + shopBtnSize && mouseY >= shopBtnY && mouseY <= shopBtnY + shopBtnSize) {
+    btnTooltip = "sell all";
+  }
+  
+  else if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY && mouseY <= achiBtnY + achiBtnSize) {
+    btnTooltip = "achievements";
+  }
+  
+  else if (mouseX >= seedBtnX && mouseX <= seedBtnX + seedBtnSize && mouseY >= seedBtnY && mouseY <= seedBtnY + seedBtnSize) {
+    btnTooltip = "buy seeds";
+  }
+ 
+  else if (isShopOpen && mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
+    btnTooltip = "go back";
+  }
+
+
+  if (btnTooltip !== "") {
+    stroke(255);
+    strokeWeight(4);
+    textSize(20);
+    fill(0);
+    textAlign(CENTER, BOTTOM);
+    text(btnTooltip, mouseX, mouseY - 15);
+    textAlign(LEFT, BASELINE); 
+  }
+
+
   if (onFarm) {
     let tooltipText = "";
+
+    stroke(255);
+    strokeWeight(4);
+    textSize(20);
+    fill(0);
+
     if (untilled[mouseTileY][mouseTileX] === true) {
       tooltipText = "Click to till the soil (20 coins)";
     } else if (seeds[mouseTileY][mouseTileX] !== 0 && growthTimers[mouseTileY][mouseTileX] <= 0) {
