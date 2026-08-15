@@ -145,13 +145,7 @@ function plantSeed() {
   seeds[mouseTileY][mouseTileX] = currentSeed; 
 } 
 
-function keyPressed() { 
-  if (key === '1') { 
-    currentSeed = 1; 
-  } else if (key === '2') { 
-    currentSeed = 2; 
-  } 
-} 
+
 
 function mousePressed() { 
   if (bgMusic && !audioStarted) { 
