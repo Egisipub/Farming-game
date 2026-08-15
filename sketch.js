@@ -1,18 +1,35 @@
+// Farming game by Egisipub (Casey Emery) - 8/6/2026
+
+//hope you enjoy it!
+
+
+
 const numTilesX = 20; 
 const numTilesY = 10; 
 const tileSize = 72; 
+
 var mouseTileX = 0; 
 var mouseTileY = 0; 
+
 var onFarm = false; 
+
 var seeds = []; 
+
 let coins = 25.0; 
+
 let formatedCoins = "0.0"; 
+
 var untilled = []; 
+
 var growthTimers = []; 
+
 var currentSeed = 1; 
-var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow; 
+
+var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow, carrotSeedIcon, lettuceSeedIcon; 
 var bgMusic; 
+
 var audioStarted = false; 
+
 var isShopOpen = false;
 
 const seedBtnX = 550; 
@@ -30,6 +47,17 @@ const shopBtnSize = 96;
 const backBtnX = 415; 
 const backBtnY = 520; 
 const backBtnSize = 56; 
+
+
+//buttons for getting seeds n stuff
+
+const carrotSeedBtnX = 140;
+const carrotSeedBtnY = 150;
+const carrotSeedBtnSize = 64;
+
+const lettuceSeedBtnX = 214;
+const lettuceSeedBtnY = 150;
+const lettuceSeedBtnSize = 64;
 
 level = [ 
   "22222222222222222222", 
@@ -232,6 +260,8 @@ async function setup() {
   seedIcon = await loadImage('assets/seedIcon.png'); 
   backIcon = await loadImage('assets/backIcon.png'); 
   shopWindow = await loadImage('assets/shopWindow.png'); 
+  lettuceSeedIcon = await loadImage('assets/lettuceSeedIcon.png');
+  carrotSeedIcon = await loadImage('assets/carrotSeedIcon.png');
 
   bgMusic = new Audio('assets/bgMusic.wav'); 
   bgMusic.loop = true; 
@@ -320,6 +350,54 @@ function draw() {
   }
 
 
+
+
+
+  if (isShopOpen) {
+    let itemSize, itemOffset;
+
+   
+    itemSize = carrotSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= carrotSeedBtnX && mouseX <= carrotSeedBtnX + carrotSeedBtnSize && 
+        mouseY >= carrotSeedBtnY && mouseY <= carrotSeedBtnY + carrotSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = carrotSeedBtnSize - 8; 
+        itemOffset = 4;
+
+
+        currentSeed = 1;
+      } else {
+        itemSize = carrotSeedBtnSize + 8; 
+        itemOffset = -4;
+      }
+    }
+    image(carrotSeedIcon, carrotSeedBtnX + itemOffset, carrotSeedBtnY + itemOffset, itemSize, itemSize);
+
+    
+
+    itemSize = lettuceSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= lettuceSeedBtnX && mouseX <= lettuceSeedBtnX + lettuceSeedBtnSize && 
+        mouseY >= lettuceSeedBtnY && mouseY <= lettuceSeedBtnY + lettuceSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = lettuceSeedBtnSize - 8; 
+        itemOffset = 4;
+
+        currentSeed = 2;
+      } else {
+        itemSize = lettuceSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(lettuceSeedIcon, lettuceSeedBtnX + itemOffset, lettuceSeedBtnY + itemOffset, itemSize, itemSize);
+  }
+
+
+
+
+
+
   textSize(34); 
   fill(173, 148, 139); 
   formatedCoins = formatMoney(coins); 
@@ -354,6 +432,11 @@ function draw() {
  
   else if (isShopOpen && mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
     btnTooltip = "go back";
+  }
+   else if (isShopOpen && mouseX >= carrotSeedBtnX && mouseX <= carrotSeedBtnX + carrotSeedBtnSize && mouseY >= carrotSeedBtnY && mouseY <= carrotSeedBtnY + carrotSeedBtnSize) {
+    btnTooltip = "select carrot";
+  } else if (isShopOpen && mouseX >= lettuceSeedBtnX && mouseX <= lettuceSeedBtnX + lettuceSeedBtnSize && mouseY >= lettuceSeedBtnY && mouseY <= lettuceSeedBtnY + lettuceSeedBtnSize) {
+    btnTooltip = "select lettuce";
   }
 
 
@@ -395,3 +478,6 @@ function draw() {
   }
   noStroke();
 }
+
+
+
