@@ -23,9 +23,15 @@ var untilled = [];
 
 var growthTimers = []; 
 
+const growthTimeCarrot = 3600;
+const growthTimeLettuce = 7200;
+
+//test
+
+
 var currentSeed = 1; 
 
-var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow, carrotSeedIcon, lettuceSeedIcon; 
+var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow, carrotSeedIcon, lettuceSeedIcon, farmlandWateredSprite, carrotWatered, lettuceWatered; 
 var bgMusic; 
 
 var audioStarted = false; 
@@ -201,9 +207,9 @@ function mousePressed() {
           if (coins >= cost) { 
             plantSeed(); 
             if (currentSeed === 1) { 
-              growthTimers[mouseTileY][mouseTileX] = 3600; //1 min
+              growthTimers[mouseTileY][mouseTileX] = growthTimeCarrot; //1 min
             } else if (currentSeed === 2) { 
-              growthTimers[mouseTileY][mouseTileX] = 10800; //3 min
+              growthTimers[mouseTileY][mouseTileX] = growthTimeLettuce; //3 min
             } 
             coins -= cost; 
           } 
@@ -256,7 +262,7 @@ async function setup() {
   shopWindow = await loadImage('assets/shopWindow.png'); 
   lettuceSeedIcon = await loadImage('assets/lettuceSeedIcon.png');
   carrotSeedIcon = await loadImage('assets/carrotSeedIcon.png');
-
+  farmlandWateredSprite = await loadImage('assets/farmlandWatered.png');
   bgMusic = new Audio('assets/bgMusic.wav'); 
   bgMusic.loop = true; 
   bgMusic.volume = 0.5; 
