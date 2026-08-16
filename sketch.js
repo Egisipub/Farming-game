@@ -2,7 +2,7 @@
 
 //hope you enjoy it!
 
-
+//ahhhhhhhh
 
 const numTilesX = 20; 
 const numTilesY = 10; 
@@ -23,10 +23,27 @@ var untilled = [];
 
 var growthTimers = []; 
 
-const growthTimeCarrot = 3600;
-const growthTimeLettuce = 7200;
 
-//test
+const carrotSellPrice = 6.25;
+const carrotPurchasePrice = 5;
+
+const lettuceSellPrice = 20
+const lettucePurchasePrice = 16
+
+
+
+
+
+
+var watered = [];
+var waterTimers = [];
+const waterDuration = 18000; // 5 minutes 
+
+
+const growthTimeCarrot = 3600; //1 min
+const growthTimeLettuce = 7200; // 3 mins
+
+
 
 
 var currentSeed = 1; 
@@ -114,30 +131,55 @@ function drawLevel() {
         if (untilled[row][col] === true) { 
           image(rockSprite, x, y, tileSize, tileSize); 
         } 
+
+        if (watered[row][col] === true) {
+          image(farmlandWateredSprite, x, y, tileSize, tileSize);
+        }
+
+        
       } else if (squareType === "2") { 
         image(fenceSprite, x, y, tileSize, tileSize); 
       } 
 
-      if (seeds[row][col] !== 0) { 
-        noStroke(); 
-        let imgSize = tileSize * 0.8; 
-        let offset = (tileSize - imgSize) / 2; 
 
-        if (growthTimers[row][col] > 0) { 
-          if (seeds[row][col] === 1) { 
-            image(carrotSprite, x + offset, y + offset, imgSize, imgSize); 
-          } else if (seeds[row][col] === 2) { 
-            image(lettuceSprite, x + offset, y + offset, imgSize, imgSize); 
-          } 
-          growthTimers[row][col]--; 
-        } else { 
-          if (seeds[row][col] === 1) { 
-            image(carrotGrown, x + offset, y + offset, imgSize, imgSize); 
-          } else if (seeds[row][col] === 2) { 
-            image(lettuceGrown, x + offset, y + offset, imgSize, imgSize); 
-          } 
-        } 
-      } 
+
+      if (waterTimers[row][col] > 0) {
+        waterTimers[row][col]--;
+        if (waterTimers[row][col] <= 0) {
+          watered[row][col] = false;
+        }
+      }
+
+
+
+      if (seeds[row][col] !== 0) {
+  noStroke();
+  let imgSize = tileSize * 0.8;
+  let offset = (tileSize - imgSize) / 2;
+
+  if (growthTimers[row][col] > 0) {
+
+    if (watered[row][col] === true) {
+      growthTimers[row][col]--;
+    }
+
+  if (seeds[row][col] === 1) {
+        image(carrotSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 2) {
+        image(lettuceSprite, x + offset, y + offset, imgSize, imgSize);
+      }
+
+    } else {
+
+      if (seeds[row][col] === 1) {
+        image(carrotGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 2) {
+        image(lettuceGrown, x + offset, y + offset, imgSize, imgSize);
+      }
+
+    }
+  }
+
       noStroke(); 
     } 
   } 
@@ -186,41 +228,57 @@ function mousePressed() {
   if (isShopOpen) return;
 
   if (mouseTileX >= 0 && mouseTileX < numTilesX && mouseTileY >= 0 && mouseTileY < numTilesY) { 
-    if (onFarm) { 
-      if (untilled[mouseTileY][mouseTileX] === true) { 
-        if (coins >= 20) { 
-          untilled[mouseTileY][mouseTileX] = false; 
-          coins -= 20; 
-        } 
-      } else { 
-        if (seeds[mouseTileY][mouseTileX] !== 0) { 
-          if (growthTimers[mouseTileY][mouseTileX] <= 0) { 
-            if (seeds[mouseTileY][mouseTileX] === 1) { 
-              coins += 50; 
-            } else if (seeds[mouseTileY][mouseTileX] === 2) { 
-              coins += 80; 
-            } 
-            seeds[mouseTileY][mouseTileX] = 0; 
-          } 
-        } else { 
-          let cost = currentSeed === 1 ? 5 : 30; 
-          if (coins >= cost) { 
-            plantSeed(); 
-            if (currentSeed === 1) { 
-              growthTimers[mouseTileY][mouseTileX] = growthTimeCarrot; //1 min
-            } else if (currentSeed === 2) { 
-              growthTimers[mouseTileY][mouseTileX] = growthTimeLettuce; //3 min
-            } 
-            coins -= cost; 
-          } 
-        } 
-      } 
+    if (onFarm) {
+
+
+  if (untilled[mouseTileY][mouseTileX] === false) {
+    if (watered[mouseTileY][mouseTileX] === false) {
+      watered[mouseTileY][mouseTileX] = true;
+      waterTimers[mouseTileY][mouseTileX] = waterDuration;
+      return;
+    }
+  }
+
+ 
+  if (untilled[mouseTileY][mouseTileX] === true) {
+    if (coins >= 10000) {
+      untilled[mouseTileY][mouseTileX] = false;
+      coins -= 10000;
+    }
+    return;
+  }
+
+  
+  if (seeds[mouseTileY][mouseTileX] !== 0) {
+    if (growthTimers[mouseTileY][mouseTileX] <= 0) {
+      if (seeds[mouseTileY][mouseTileX] === 1) coins += carrotSellPrice;
+      else if (seeds[mouseTileY][mouseTileX] === 2) coins += lettuceSellPrice;
+      seeds[mouseTileY][mouseTileX] = 0;
+    }
+    return;
+  }
+
+ 
+  let cost = currentSeed === 1 ? carrotPurchasePrice : lettucePurchasePrice;
+
+  if (coins >= cost) {
+    plantSeed();
+    if (currentSeed === 1) growthTimers[mouseTileY][mouseTileX] = growthTimeCarrot;
+    else if (currentSeed === 2) growthTimers[mouseTileY][mouseTileX] = growthTimeLettuce;
+    coins -= cost;
+  }
+}
+
     } 
   } 
-} 
+
 
 function formatMoney(amount) { 
-  if (amount >= 1000000000) { 
+  if (amount >= 1000000000000) {
+    let truncated = Math.floor((amount / 1000000000000) * 100) / 100; 
+    return truncated.toFixed(2) + "T"; 
+  }
+  else if (amount >= 1000000000) { 
     let truncated = Math.floor((amount / 1000000000) * 100) / 100; 
     return truncated.toFixed(2) + "B"; 
   } else if (amount >= 1000000) { 
@@ -279,8 +337,44 @@ async function setup() {
       } else { 
         untilled[row][col] = false; 
       } 
+
+      if (whatSquare(row, col) === "1") {
+        untilled[row][col] = true;
+      } else {
+        untilled[row][col] = false;
+      }
+
+      if (row === numTilesY - 2) {
+        untilled[row][col] = false;
+      }
+
+
     } 
   } 
+
+
+  for (let row = 0; row < numTilesY; row++) {
+    watered[row] = [];
+    waterTimers[row] = [];
+    for (let col = 0; col < numTilesX; col++) {
+      watered[row][col] = false;
+      waterTimers[row][col] = 0;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 } 
 
 function draw() { 
@@ -460,13 +554,19 @@ function draw() {
     fill(0);
 
     if (untilled[mouseTileY][mouseTileX] === true) {
-      tooltipText = "Click to till the soil (20 coins)";
+      tooltipText = "Click to till the soil (10k coins)";
     } else if (seeds[mouseTileY][mouseTileX] !== 0 && growthTimers[mouseTileY][mouseTileX] <= 0) {
+     
+      
+      
       if (seeds[mouseTileY][mouseTileX] === 1) {
-        tooltipText = "harvest carrot (get 50 coins)";
+        tooltipText = "harvest carrot (get" + carrotSellPrice + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 2) {
-        tooltipText = "harvest lettuce (get 80 coins)";
+        tooltipText = "harvest lettuce (get " + carrotSellPrice + " coins)";
       }
+
+
+
     }
     if (tooltipText !== "") {
       textSize(24);
