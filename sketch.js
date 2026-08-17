@@ -15,7 +15,7 @@ var onFarm = false;
 
 var seeds = []; 
 
-let coins = 25.0; 
+let coins = 10.0; 
 
 let formatedCoins = "0.0"; 
 
@@ -40,8 +40,8 @@ var waterTimers = [];
 const waterDuration = 18000; // 5 minutes 
 
 
-const growthTimeCarrot = 3600; //1 min
-const growthTimeLettuce = 7200; // 3 mins
+const growthTimeCarrot = 900; //1 min
+const growthTimeLettuce = 1800; // 3 mins
 
 
 
@@ -322,6 +322,9 @@ async function setup() {
   carrotSeedIcon = await loadImage('assets/carrotSeedIcon.png');
   farmlandWateredSprite = await loadImage('assets/farmlandWatered.png');
   bgMusic = new Audio('assets/bgMusic.wav'); 
+
+
+  
   bgMusic.loop = true; 
   bgMusic.volume = 0.5; 
 
@@ -501,9 +504,9 @@ function draw() {
   textAlign(LEFT, BASELINE); 
 
   if (currentSeed === 1) { 
-    text("carrot seed (5 coins)", 20, 65); 
+    text("carrot seed (" + carrotPurchasePrice + " coins)", 20, 65); 
   } else if (currentSeed === 2) { 
-    text("lettuce seed (30 coins)", 20, 65); 
+    text("lettuce seed (" + lettucePurchasePrice +" coins)", 20, 65); 
   }
 
   fill(0);
@@ -562,7 +565,7 @@ function draw() {
       if (seeds[mouseTileY][mouseTileX] === 1) {
         tooltipText = "harvest carrot (get" + carrotSellPrice + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 2) {
-        tooltipText = "harvest lettuce (get " + carrotSellPrice + " coins)";
+        tooltipText = "harvest lettuce (get " + lettuceSellPrice + " coins)";
       }
 
 
