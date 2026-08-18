@@ -15,7 +15,7 @@ var onFarm = false;
 
 var seeds = []; 
 
-let coins = 10.0; 
+let coins = 999999999999999.0; 
 
 let formatedCoins = "0.0"; 
 
@@ -26,11 +26,15 @@ var growthTimers = [];
 
 const carrotSellPrice = 6.25;
 const carrotPurchasePrice = 5;
+const growthTimeCarrot = 900; //15 sec
 
 const lettuceSellPrice = 20
 const lettucePurchasePrice = 16
+const growthTimeLettuce = 1800; //30 sec
 
-
+const potatoSellPrice = 61.75;
+const potatoPurchasePrice = 51;
+const growthTimePotato = 2700; //45 sec
 
 
 
@@ -40,8 +44,8 @@ var waterTimers = [];
 const waterDuration = 18000; // 5 minutes 
 
 
-const growthTimeCarrot = 900; //1 min
-const growthTimeLettuce = 1800; // 3 mins
+
+
 
 
 
@@ -49,6 +53,11 @@ const growthTimeLettuce = 1800; // 3 mins
 var currentSeed = 1; 
 
 var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow, carrotSeedIcon, lettuceSeedIcon, farmlandWateredSprite, carrotWatered, lettuceWatered; 
+
+var potatoSprite, potatoGrown, potatoSeedIcon;
+
+
+
 var bgMusic; 
 
 var audioStarted = false; 
@@ -81,6 +90,13 @@ const carrotSeedBtnSize = 64;
 const lettuceSeedBtnX = 214;
 const lettuceSeedBtnY = 150;
 const lettuceSeedBtnSize = 64;
+
+const potatoSeedBtnX = 290;
+const potatoSeedBtnY = 150;
+const potatoSeedBtnSize = 64;
+
+
+
 
 level = [ 
   "22222222222222222222", 
@@ -167,7 +183,14 @@ function drawLevel() {
         image(carrotSprite, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 2) {
         image(lettuceSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 3) {
+        image(potatoSprite, x + offset, y + offset, imgSize, imgSize);
       }
+
+
+
+
+
 
     } else {
 
@@ -175,7 +198,16 @@ function drawLevel() {
         image(carrotGrown, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 2) {
         image(lettuceGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 3) {
+        image(potatoGrown, x + offset, y + offset, imgSize, imgSize);
       }
+
+
+
+
+
+
+
 
     }
   }
@@ -253,18 +285,38 @@ function mousePressed() {
     if (growthTimers[mouseTileY][mouseTileX] <= 0) {
       if (seeds[mouseTileY][mouseTileX] === 1) coins += carrotSellPrice;
       else if (seeds[mouseTileY][mouseTileX] === 2) coins += lettuceSellPrice;
+      else if (seeds[mouseTileY][mouseTileX] === 3) coins += potatoSellPrice
+
+
+
+
+
       seeds[mouseTileY][mouseTileX] = 0;
     }
     return;
   }
 
  
-  let cost = currentSeed === 1 ? carrotPurchasePrice : lettucePurchasePrice;
+  let cost = currentSeed === 1 ? carrotPurchasePrice :
+            currentSeed === 2 ? lettucePurchasePrice :
+            potatoPurchasePrice ;
+
+
+
+
+
 
   if (coins >= cost) {
     plantSeed();
     if (currentSeed === 1) growthTimers[mouseTileY][mouseTileX] = growthTimeCarrot;
     else if (currentSeed === 2) growthTimers[mouseTileY][mouseTileX] = growthTimeLettuce;
+    else if (currentSeed === 3) growthTimers[mouseTileY][mouseTileX] = growthTimePotato;
+
+
+
+
+
+
     coins -= cost;
   }
 }
@@ -324,6 +376,12 @@ async function setup() {
   bgMusic = new Audio('assets/bgMusic.wav'); 
 
 
+
+
+  potatoGrown = await loadImage('assets/potato.png');
+  potatoSprite = await loadImage('assets/potatoSeed.png');
+  potatoSeedIcon = await loadImage('assets/potatoSeedIcon.png');
+
   
   bgMusic.loop = true; 
   bgMusic.volume = 0.5; 
@@ -379,6 +437,19 @@ async function setup() {
 
 
 } 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function draw() { 
   background(220); 
@@ -454,6 +525,8 @@ function draw() {
     let itemSize, itemOffset;
 
    
+
+
     itemSize = carrotSeedBtnSize;
     itemOffset = 0;
     if (mouseX >= carrotSeedBtnX && mouseX <= carrotSeedBtnX + carrotSeedBtnSize && 
@@ -473,6 +546,8 @@ function draw() {
 
     
 
+
+
     itemSize = lettuceSeedBtnSize;
     itemOffset = 0;
     if (mouseX >= lettuceSeedBtnX && mouseX <= lettuceSeedBtnX + lettuceSeedBtnSize && 
@@ -488,6 +563,29 @@ function draw() {
       }
     }
     image(lettuceSeedIcon, lettuceSeedBtnX + itemOffset, lettuceSeedBtnY + itemOffset, itemSize, itemSize);
+
+
+    itemSize = potatoSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= potatoSeedBtnX && mouseX <= potatoSeedBtnX + potatoSeedBtnSize && 
+        mouseY >= potatoSeedBtnY && mouseY <= potatoSeedBtnY + potatoSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = potatoSeedBtnSize - 8; 
+        itemOffset = 4;
+
+        currentSeed = 3;
+      } else {
+        itemSize = potatoSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(potatoSeedIcon, potatoSeedBtnX + itemOffset, potatoSeedBtnY + itemOffset, itemSize, itemSize);
+
+
+
+
+
+
   }
 
 
@@ -507,6 +605,8 @@ function draw() {
     text("carrot seed (" + carrotPurchasePrice + " coins)", 20, 65); 
   } else if (currentSeed === 2) { 
     text("lettuce seed (" + lettucePurchasePrice +" coins)", 20, 65); 
+  } else if (currentSeed === 3) {
+    text("potato seed (" + potatoPurchasePrice + " coins)", 20, 65);
   }
 
   fill(0);
@@ -534,7 +634,11 @@ function draw() {
     btnTooltip = "select carrot";
   } else if (isShopOpen && mouseX >= lettuceSeedBtnX && mouseX <= lettuceSeedBtnX + lettuceSeedBtnSize && mouseY >= lettuceSeedBtnY && mouseY <= lettuceSeedBtnY + lettuceSeedBtnSize) {
     btnTooltip = "select lettuce";
-  }
+  } else if (isShopOpen && mouseX >= potatoSeedBtnX && mouseX <= potatoSeedBtnX + potatoSeedBtnSize && mouseY >= potatoSeedBtnY && mouseY <= potatoSeedBtnY + potatoSeedBtnSize) {
+    btnTooltip = "select potato";
+  } 
+
+
 
 
   if (btnTooltip !== "") {
@@ -563,9 +667,11 @@ function draw() {
       
       
       if (seeds[mouseTileY][mouseTileX] === 1) {
-        tooltipText = "harvest carrot (get" + carrotSellPrice + " coins)";
+        tooltipText = "harvest carrot (get " + carrotSellPrice + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 2) {
         tooltipText = "harvest lettuce (get " + lettuceSellPrice + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 3) {
+        tooltipText = "harvest potato (get " + potatoSellPrice + " coins)";
       }
 
 
