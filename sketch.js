@@ -36,8 +36,13 @@ const potatoSellPrice = 61.75;
 const potatoPurchasePrice = 51;
 const growthTimePotato = 2700; //45 sec
 
+const broccoliSellPrice = 203.75;
+const broccoliPurchasePrice = 163;
+const growthTimeBroccoli= 3600; //1 min
 
-
+const marigoldSellPrice = 655;
+const marigoldPurchasePrice = 524;
+const growthTimeMarigold= 5400; //1.5 mins
 
 var watered = [];
 var waterTimers = [];
@@ -52,11 +57,11 @@ const waterDuration = 18000; // 5 minutes
 
 var currentSeed = 1; 
 
-var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, shopIcon, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow, carrotSeedIcon, lettuceSeedIcon, farmlandWateredSprite, carrotWatered, lettuceWatered; 
+var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow, carrotSeedIcon, lettuceSeedIcon, farmlandWateredSprite, carrotWatered, lettuceWatered; 
 
 var potatoSprite, potatoGrown, potatoSeedIcon;
-
-
+var broccoliSprite, broccoliGrown, broccoliSeedIcon;
+var marigoldSprite, marigoldGrown, marigoldSeedIcon;
 
 var bgMusic; 
 
@@ -68,13 +73,9 @@ const seedBtnX = 550;
 const seedBtnY = 10; 
 const seedBtnSize = 96; 
 
-const achiBtnX = 10; 
-const achiBtnY = 370; 
+const achiBtnX = 460; 
+const achiBtnY = 610; 
 const achiBtnSize = 96; 
-
-const shopBtnX = 10; 
-const shopBtnY = 490; 
-const shopBtnSize = 96; 
 
 const backBtnX = 415; 
 const backBtnY = 520; 
@@ -87,16 +88,28 @@ const carrotSeedBtnX = 140;
 const carrotSeedBtnY = 150;
 const carrotSeedBtnSize = 64;
 
-const lettuceSeedBtnX = 214;
+const lettuceSeedBtnX = 224;
 const lettuceSeedBtnY = 150;
 const lettuceSeedBtnSize = 64;
 
-const potatoSeedBtnX = 290;
+const potatoSeedBtnX = 310;
 const potatoSeedBtnY = 150;
 const potatoSeedBtnSize = 64;
 
+const broccoliSeedBtnX = 400;
+const broccoliSeedBtnY = 150;
+const broccoliSeedBtnSize = 64;
 
 
+
+
+//row 2
+
+const marigoldSeedBtnX = 140;
+const marigoldSeedBtnY = 230;
+const marigoldSeedBtnSize = 64;
+
+//row 3
 
 level = [ 
   "22222222222222222222", 
@@ -185,6 +198,10 @@ function drawLevel() {
         image(lettuceSprite, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 3) {
         image(potatoSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 4) {
+        image(broccoliSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 5) {
+        image(marigoldSprite, x + offset, y + offset, imgSize, imgSize);
       }
 
 
@@ -200,6 +217,10 @@ function drawLevel() {
         image(lettuceGrown, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 3) {
         image(potatoGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 4) {
+        image(broccoliGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 5) {
+        image(marigoldGrown, x + offset, y + offset, imgSize, imgSize);
       }
 
 
@@ -241,10 +262,7 @@ function mousePressed() {
     }
   }
 
-  if (mouseX >= shopBtnX && mouseX <= shopBtnX + shopBtnSize && mouseY >= shopBtnY && mouseY <= shopBtnY + shopBtnSize) { 
-    console.log("Shop Button Clicked!"); 
-    return; 
-  } 
+ 
 
   if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY && mouseY <= achiBtnY + achiBtnSize) { 
     console.log("Achievements Button Clicked!"); 
@@ -283,10 +301,12 @@ function mousePressed() {
   
   if (seeds[mouseTileY][mouseTileX] !== 0) {
     if (growthTimers[mouseTileY][mouseTileX] <= 0) {
+
       if (seeds[mouseTileY][mouseTileX] === 1) coins += carrotSellPrice;
       else if (seeds[mouseTileY][mouseTileX] === 2) coins += lettuceSellPrice;
       else if (seeds[mouseTileY][mouseTileX] === 3) coins += potatoSellPrice
-
+      else if (seeds[mouseTileY][mouseTileX] === 4) coins += broccoliSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 5) coins += marigoldSellPrice
 
 
 
@@ -299,7 +319,9 @@ function mousePressed() {
  
   let cost = currentSeed === 1 ? carrotPurchasePrice :
             currentSeed === 2 ? lettucePurchasePrice :
-            potatoPurchasePrice ;
+            currentSeed === 3 ? potatoPurchasePrice :
+            currentSeed === 4 ? broccoliPurchasePrice:
+            marigoldPurchasePrice;
 
 
 
@@ -308,10 +330,12 @@ function mousePressed() {
 
   if (coins >= cost) {
     plantSeed();
+
     if (currentSeed === 1) growthTimers[mouseTileY][mouseTileX] = growthTimeCarrot;
     else if (currentSeed === 2) growthTimers[mouseTileY][mouseTileX] = growthTimeLettuce;
     else if (currentSeed === 3) growthTimers[mouseTileY][mouseTileX] = growthTimePotato;
-
+    else if (currentSeed === 4) growthTimers[mouseTileY][mouseTileX] = growthTimeBroccoli;
+    else if (currentSeed === 5) growthTimers[mouseTileY][mouseTileX] = growthTimeMarigold;
 
 
 
@@ -362,7 +386,6 @@ async function setup() {
   rockSprite = await loadImage('assets/rock.png'); 
   carrotGrown = await loadImage('assets/carrot.png'); 
   lettuceGrown = await loadImage('assets/lettuce.png'); 
-  shopIcon = await loadImage('assets/shopIcon.png'); 
   coinIcon = await loadImage('assets/coinIcon.png'); 
   achievementsIcon = await loadImage('assets/achievementsIcon.png'); 
   itemIcon = await loadImage('assets/itemIcon.png'); 
@@ -382,7 +405,20 @@ async function setup() {
   potatoSprite = await loadImage('assets/potatoSeed.png');
   potatoSeedIcon = await loadImage('assets/potatoSeedIcon.png');
 
+  broccoliGrown = await loadImage('assets/broccoli.png');
+  broccoliSprite = await loadImage('assets/broccoliSeed.png');
+  broccoliSeedIcon = await loadImage('assets/broccoliSeedIcon.png');
   
+  marigoldGrown = await loadImage('assets/marigold.png');
+  marigoldSprite = await loadImage('assets/marigoldSeed.png');
+  marigoldSeedIcon = await loadImage('assets/marigoldSeedIcon.png');
+
+
+
+
+
+
+
   bgMusic.loop = true; 
   bgMusic.volume = 0.5; 
 
@@ -458,18 +494,7 @@ function draw() {
 
   let currentSize, offset; 
 
-  currentSize = shopBtnSize; 
-  offset = 0; 
-  if (mouseX >= shopBtnX && mouseX <= shopBtnX + shopBtnSize && mouseY >= shopBtnY && mouseY <= shopBtnY + shopBtnSize) { 
-    if (mouseIsPressed) { 
-      currentSize = shopBtnSize - 12; 
-      offset = 6; 
-    } else { 
-      currentSize = shopBtnSize + 12; 
-      offset = -6; 
-    } 
-  } 
-  image(shopIcon, shopBtnX + offset, shopBtnY + offset, currentSize, currentSize); 
+  
 
   currentSize = achiBtnSize; 
   offset = 0; 
@@ -497,8 +522,21 @@ function draw() {
   } 
   image(seedIcon, seedBtnX + offset, seedBtnY + offset, currentSize, currentSize); 
 
-  image(coinIcon, 10, height - 110, 420, 96); 
+
+
+
+
+
+
+  image(coinIcon, 10, 610, 420, 96); 
   image(itemIcon, 10, 10, 525, 96); 
+
+
+
+
+
+
+
 
   if (isShopOpen) {
     image(shopWindow, 120, 135, 360, 450); 
@@ -585,6 +623,53 @@ function draw() {
 
 
 
+    itemSize = broccoliSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= broccoliSeedBtnX && mouseX <= broccoliSeedBtnX + broccoliSeedBtnSize && 
+        mouseY >= broccoliSeedBtnY && mouseY <= broccoliSeedBtnY + broccoliSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = broccoliSeedBtnSize - 8; 
+        itemOffset = 4;
+
+        currentSeed = 4;
+      } else {
+        itemSize = broccoliSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(broccoliSeedIcon, broccoliSeedBtnX + itemOffset, broccoliSeedBtnY + itemOffset, itemSize, itemSize);
+
+
+
+    itemSize = marigoldSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= marigoldSeedBtnX && mouseX <= marigoldSeedBtnX + marigoldSeedBtnSize && 
+        mouseY >= marigoldSeedBtnY && mouseY <= marigoldSeedBtnY + marigoldSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = marigoldSeedBtnSize - 8; 
+        itemOffset = 4;
+
+        currentSeed = 5;
+      } else {
+        itemSize = marigoldSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(marigoldSeedIcon, marigoldSeedBtnX + itemOffset, marigoldSeedBtnY + itemOffset, itemSize, itemSize);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   }
 
@@ -598,8 +683,11 @@ function draw() {
   formatedCoins = formatMoney(coins); 
   
   textAlign(RIGHT, BASELINE); 
-  text(formatedCoins + " coins", 335, height - 50); 
+  text(formatedCoins + " coins", 335, 670); 
   textAlign(LEFT, BASELINE); 
+
+
+
 
   if (currentSeed === 1) { 
     text("carrot seed (" + carrotPurchasePrice + " coins)", 20, 65); 
@@ -607,7 +695,11 @@ function draw() {
     text("lettuce seed (" + lettucePurchasePrice +" coins)", 20, 65); 
   } else if (currentSeed === 3) {
     text("potato seed (" + potatoPurchasePrice + " coins)", 20, 65);
-  }
+  }  else if (currentSeed === 4) {
+    text("broccoli seed (" + broccoliPurchasePrice + " coins)", 20, 65);
+  } else if (currentSeed === 5) {
+    text("marigold seed (" + marigoldPurchasePrice + " coins)", 20, 65);
+  } 
 
   fill(0);
 
@@ -615,11 +707,9 @@ function draw() {
   let btnTooltip = "";
 
   
-  if (mouseX >= shopBtnX && mouseX <= shopBtnX + shopBtnSize && mouseY >= shopBtnY && mouseY <= shopBtnY + shopBtnSize) {
-    btnTooltip = "sell all";
-  }
   
-  else if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY && mouseY <= achiBtnY + achiBtnSize) {
+  
+if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY && mouseY <= achiBtnY + achiBtnSize) {
     btnTooltip = "achievements";
   }
   
@@ -629,13 +719,16 @@ function draw() {
  
   else if (isShopOpen && mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
     btnTooltip = "go back";
-  }
-   else if (isShopOpen && mouseX >= carrotSeedBtnX && mouseX <= carrotSeedBtnX + carrotSeedBtnSize && mouseY >= carrotSeedBtnY && mouseY <= carrotSeedBtnY + carrotSeedBtnSize) {
+  } else if (isShopOpen && mouseX >= carrotSeedBtnX && mouseX <= carrotSeedBtnX + carrotSeedBtnSize && mouseY >= carrotSeedBtnY && mouseY <= carrotSeedBtnY + carrotSeedBtnSize) {
     btnTooltip = "select carrot";
   } else if (isShopOpen && mouseX >= lettuceSeedBtnX && mouseX <= lettuceSeedBtnX + lettuceSeedBtnSize && mouseY >= lettuceSeedBtnY && mouseY <= lettuceSeedBtnY + lettuceSeedBtnSize) {
     btnTooltip = "select lettuce";
   } else if (isShopOpen && mouseX >= potatoSeedBtnX && mouseX <= potatoSeedBtnX + potatoSeedBtnSize && mouseY >= potatoSeedBtnY && mouseY <= potatoSeedBtnY + potatoSeedBtnSize) {
     btnTooltip = "select potato";
+  } else if (isShopOpen && mouseX >= broccoliSeedBtnX && mouseX <= broccoliSeedBtnX + broccoliSeedBtnSize && mouseY >= broccoliSeedBtnY && mouseY <= broccoliSeedBtnY + broccoliSeedBtnSize) {
+    btnTooltip = "select broccoli";
+  } else if (isShopOpen && mouseX >= marigoldSeedBtnX && mouseX <= marigoldSeedBtnX + marigoldSeedBtnSize && mouseY >= marigoldSeedBtnY && mouseY <= marigoldSeedBtnY + marigoldSeedBtnSize) {
+    btnTooltip = "select marigold";
   } 
 
 
@@ -672,6 +765,10 @@ function draw() {
         tooltipText = "harvest lettuce (get " + lettuceSellPrice + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 3) {
         tooltipText = "harvest potato (get " + potatoSellPrice + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 4) {
+        tooltipText = "harvest broccoli (get " + broccoliSellPrice + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 5) {
+        tooltipText = "harvest marigold (get " + marigoldSellPrice + " coins)";
       }
 
 
