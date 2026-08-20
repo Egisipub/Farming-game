@@ -44,6 +44,10 @@ const marigoldSellPrice = 655;
 const marigoldPurchasePrice = 524;
 const growthTimeMarigold= 5400; //1.5 mins
 
+const herbSellPrice = 2097.5;
+const herbPurchasePrice = 1678;
+const growthTimeHerb= 7200; //2 mins
+
 var watered = [];
 var waterTimers = [];
 const waterDuration = 18000; // 5 minutes 
@@ -62,6 +66,7 @@ var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highl
 var potatoSprite, potatoGrown, potatoSeedIcon;
 var broccoliSprite, broccoliGrown, broccoliSeedIcon;
 var marigoldSprite, marigoldGrown, marigoldSeedIcon;
+var herbsprite, herbGrown, herbSeedIcon;
 
 var bgMusic; 
 
@@ -103,11 +108,21 @@ const broccoliSeedBtnSize = 64;
 
 
 
+
 //row 2
 
 const marigoldSeedBtnX = 140;
 const marigoldSeedBtnY = 230;
 const marigoldSeedBtnSize = 64;
+
+const herbSeedBtnX = 224;
+const herbSeedBtnY = 230;
+const herbSeedBtnSize = 64;
+
+
+
+
+
 
 //row 3
 
@@ -202,6 +217,8 @@ function drawLevel() {
         image(broccoliSprite, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 5) {
         image(marigoldSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 6) {
+        image(herbSprite, x + offset, y + offset, imgSize, imgSize);
       }
 
 
@@ -221,8 +238,10 @@ function drawLevel() {
         image(broccoliGrown, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 5) {
         image(marigoldGrown, x + offset, y + offset, imgSize, imgSize);
-      }
-
+      } else if (seeds[row][col] === 6) {
+        image(herbGrown, x + offset, y + offset, imgSize, imgSize);
+      } 
+      
 
 
 
@@ -307,7 +326,7 @@ function mousePressed() {
       else if (seeds[mouseTileY][mouseTileX] === 3) coins += potatoSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 4) coins += broccoliSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 5) coins += marigoldSellPrice
-
+      else if (seeds[mouseTileY][mouseTileX] === 6) coins += herbSellPrice
 
 
 
@@ -321,7 +340,8 @@ function mousePressed() {
             currentSeed === 2 ? lettucePurchasePrice :
             currentSeed === 3 ? potatoPurchasePrice :
             currentSeed === 4 ? broccoliPurchasePrice:
-            marigoldPurchasePrice;
+            currentSeed === 5 ? marigoldPurchasePrice:
+            herbPurchasePrice;
 
 
 
@@ -336,6 +356,7 @@ function mousePressed() {
     else if (currentSeed === 3) growthTimers[mouseTileY][mouseTileX] = growthTimePotato;
     else if (currentSeed === 4) growthTimers[mouseTileY][mouseTileX] = growthTimeBroccoli;
     else if (currentSeed === 5) growthTimers[mouseTileY][mouseTileX] = growthTimeMarigold;
+    else if (currentSeed === 6) growthTimers[mouseTileY][mouseTileX] = growthTimeHerb;
 
 
 
@@ -413,7 +434,9 @@ async function setup() {
   marigoldSprite = await loadImage('assets/marigoldSeed.png');
   marigoldSeedIcon = await loadImage('assets/marigoldSeedIcon.png');
 
-
+  herbGrown = await loadImage('assets/herb.png');
+  herbSprite = await loadImage('assets/herbSeed.png');
+  herbSeedIcon = await loadImage('assets/herbSeedIcon.png');
 
 
 
@@ -658,7 +681,21 @@ function draw() {
     image(marigoldSeedIcon, marigoldSeedBtnX + itemOffset, marigoldSeedBtnY + itemOffset, itemSize, itemSize);
 
 
+    itemSize = herbSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= herbSeedBtnX && mouseX <= herbSeedBtnX + herbSeedBtnSize && 
+        mouseY >= herbSeedBtnY && mouseY <= herbSeedBtnY + herbSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = herbSeedBtnSize - 8; 
+        itemOffset = 4;
 
+        currentSeed = 6;
+      } else {
+        itemSize = herbSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(herbSeedIcon, herbSeedBtnX + itemOffset, herbSeedBtnY + itemOffset, itemSize, itemSize);
 
 
 
@@ -699,6 +736,8 @@ function draw() {
     text("broccoli seed (" + broccoliPurchasePrice + " coins)", 20, 65);
   } else if (currentSeed === 5) {
     text("marigold seed (" + marigoldPurchasePrice + " coins)", 20, 65);
+  } else if (currentSeed === 6) {
+    text("herb seed (" + herbPurchasePrice + " coins)", 20, 65);
   } 
 
   fill(0);
@@ -729,6 +768,8 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
     btnTooltip = "select broccoli";
   } else if (isShopOpen && mouseX >= marigoldSeedBtnX && mouseX <= marigoldSeedBtnX + marigoldSeedBtnSize && mouseY >= marigoldSeedBtnY && mouseY <= marigoldSeedBtnY + marigoldSeedBtnSize) {
     btnTooltip = "select marigold";
+  } else if (isShopOpen && mouseX >= herbSeedBtnX && mouseX <= herbSeedBtnX + herbSeedBtnSize && mouseY >= herbSeedBtnY && mouseY <= herbSeedBtnY + herbSeedBtnSize) {
+    btnTooltip = "select herb";
   } 
 
 
@@ -769,6 +810,8 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
         tooltipText = "harvest broccoli (get " + broccoliSellPrice + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 5) {
         tooltipText = "harvest marigold (get " + marigoldSellPrice + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 6) {
+        tooltipText = "harvest herb (get " + herbSellPrice + " coins)";
       }
 
 
