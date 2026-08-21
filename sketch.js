@@ -48,6 +48,15 @@ const herbSellPrice = 2097.5;
 const herbPurchasePrice = 1678;
 const growthTimeHerb= 7200; //2 mins
 
+const pumpkinSellPrice = 6711;
+const pumpkinPurchasePrice = 5369;
+const growthTimePumpkin= 9000; //2.5 mins
+
+
+
+
+
+
 var watered = [];
 var waterTimers = [];
 const waterDuration = 18000; // 5 minutes 
@@ -66,7 +75,8 @@ var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highl
 var potatoSprite, potatoGrown, potatoSeedIcon;
 var broccoliSprite, broccoliGrown, broccoliSeedIcon;
 var marigoldSprite, marigoldGrown, marigoldSeedIcon;
-var herbsprite, herbGrown, herbSeedIcon;
+var herbSprite, herbGrown, herbSeedIcon;
+var pumpkinSprite, pumpkinGrown, pumpkinSeedIcon;
 
 var bgMusic; 
 
@@ -118,6 +128,10 @@ const marigoldSeedBtnSize = 64;
 const herbSeedBtnX = 224;
 const herbSeedBtnY = 230;
 const herbSeedBtnSize = 64;
+
+const pumpkinSeedBtnX = 310;
+const pumpkinSeedBtnY = 230;
+const pumpkinSeedBtnSize = 64;
 
 
 
@@ -219,7 +233,10 @@ function drawLevel() {
         image(marigoldSprite, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 6) {
         image(herbSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 6) {
+        image(pumpkinSprite, x + offset, y + offset, imgSize, imgSize);
       }
+
 
 
 
@@ -240,7 +257,10 @@ function drawLevel() {
         image(marigoldGrown, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 6) {
         image(herbGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 6) {
+        image(pumpkinGrown, x + offset, y + offset, imgSize, imgSize);
       } 
+      
       
 
 
@@ -327,6 +347,7 @@ function mousePressed() {
       else if (seeds[mouseTileY][mouseTileX] === 4) coins += broccoliSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 5) coins += marigoldSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 6) coins += herbSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 7) coins += pumpkinSellPrice
 
 
 
@@ -341,7 +362,8 @@ function mousePressed() {
             currentSeed === 3 ? potatoPurchasePrice :
             currentSeed === 4 ? broccoliPurchasePrice:
             currentSeed === 5 ? marigoldPurchasePrice:
-            herbPurchasePrice;
+            currentSeed === 6 ? herbPurchasePrice:
+            pumpkinPurchasePrice;
 
 
 
