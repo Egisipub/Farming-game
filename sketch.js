@@ -52,14 +52,16 @@ const pumpkinSellPrice = 6711;
 const pumpkinPurchasePrice = 5369;
 const growthTimePumpkin= 9000; //2.5 mins
 
-
+const blueberrySellPrice = 21457.5;
+const blueberryPurchasePrice = 17166;
+const growthTimeBlueberry= 10800; //3 mins
 
 
 
 
 var watered = [];
 var waterTimers = [];
-const waterDuration = 18000; // 5 minutes 
+const waterDuration = 18000; // 5 minutes
 
 
 
@@ -77,6 +79,10 @@ var broccoliSprite, broccoliGrown, broccoliSeedIcon;
 var marigoldSprite, marigoldGrown, marigoldSeedIcon;
 var herbSprite, herbGrown, herbSeedIcon;
 var pumpkinSprite, pumpkinGrown, pumpkinSeedIcon;
+var blueberrySprite, blueberryGrown, blueberrySeedIcon;
+
+
+
 
 var bgMusic; 
 
@@ -133,7 +139,9 @@ const pumpkinSeedBtnX = 310;
 const pumpkinSeedBtnY = 230;
 const pumpkinSeedBtnSize = 64;
 
-
+const blueberrySeedBtnX = 400;
+const blueberrySeedBtnY = 230;
+const blueberrySeedBtnSize = 64;
 
 
 
@@ -233,8 +241,10 @@ function drawLevel() {
         image(marigoldSprite, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 6) {
         image(herbSprite, x + offset, y + offset, imgSize, imgSize);
-      } else if (seeds[row][col] === 6) {
+      } else if (seeds[row][col] === 7) {
         image(pumpkinSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 8) {
+        image(blueberrySprite, x + offset, y + offset, imgSize, imgSize);
       }
 
 
@@ -257,8 +267,10 @@ function drawLevel() {
         image(marigoldGrown, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 6) {
         image(herbGrown, x + offset, y + offset, imgSize, imgSize);
-      } else if (seeds[row][col] === 6) {
+      } else if (seeds[row][col] === 7) {
         image(pumpkinGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 8) {
+        image(blueberryGrown, x + offset, y + offset, imgSize, imgSize);
       } 
       
       
@@ -348,7 +360,7 @@ function mousePressed() {
       else if (seeds[mouseTileY][mouseTileX] === 5) coins += marigoldSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 6) coins += herbSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 7) coins += pumpkinSellPrice
-
+      else if (seeds[mouseTileY][mouseTileX] === 8) coins += blueberrySellPrice
 
 
       seeds[mouseTileY][mouseTileX] = 0;
@@ -363,7 +375,8 @@ function mousePressed() {
             currentSeed === 4 ? broccoliPurchasePrice:
             currentSeed === 5 ? marigoldPurchasePrice:
             currentSeed === 6 ? herbPurchasePrice:
-            pumpkinPurchasePrice;
+            currentSeed === 7 ? pumpkinPurchasePrice:
+            blueberryPurchasePrice;
 
 
 
@@ -379,8 +392,8 @@ function mousePressed() {
     else if (currentSeed === 4) growthTimers[mouseTileY][mouseTileX] = growthTimeBroccoli;
     else if (currentSeed === 5) growthTimers[mouseTileY][mouseTileX] = growthTimeMarigold;
     else if (currentSeed === 6) growthTimers[mouseTileY][mouseTileX] = growthTimeHerb;
-
-
+    else if (currentSeed === 7) growthTimers[mouseTileY][mouseTileX] = growthTimePumpkin;
+    else if (currentSeed === 8) growthTimers[mouseTileY][mouseTileX] = growthTimeBlueberry;
 
 
 
@@ -459,6 +472,15 @@ async function setup() {
   herbGrown = await loadImage('assets/herb.png');
   herbSprite = await loadImage('assets/herbSeed.png');
   herbSeedIcon = await loadImage('assets/herbSeedIcon.png');
+
+  pumpkinGrown = await loadImage('assets/pumpkin.png');
+  pumpkinSprite = await loadImage('assets/pumpkinSeed.png');
+  pumpkinSeedIcon = await loadImage('assets/pumpkinSeedIcon.png');
+
+  blueberryGrown = await loadImage('assets/blueberry.png');
+  blueberrySprite = await loadImage('assets/blueberrySeed.png');
+  blueberrySeedIcon = await loadImage('assets/blueberrySeedIcon.png');
+
 
 
 
@@ -722,11 +744,39 @@ function draw() {
 
 
 
+    itemSize = pumpkinSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= pumpkinSeedBtnX && mouseX <= pumpkinSeedBtnX + pumpkinSeedBtnSize && 
+        mouseY >= pumpkinSeedBtnY && mouseY <= pumpkinSeedBtnY + pumpkinSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = pumpkinSeedBtnSize - 8; 
+        itemOffset = 4;
+
+        currentSeed = 7;
+      } else {
+        itemSize = pumpkinSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(pumpkinSeedIcon, pumpkinSeedBtnX + itemOffset, pumpkinSeedBtnY + itemOffset, itemSize, itemSize);
 
 
 
+    itemSize = blueberrySeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= blueberrySeedBtnX && mouseX <= blueberrySeedBtnX + blueberrySeedBtnSize && 
+        mouseY >= blueberrySeedBtnY && mouseY <= blueberrySeedBtnY + blueberrySeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = blueberrySeedBtnSize - 8; 
+        itemOffset = 4;
 
-
+        currentSeed = 8;
+      } else {
+        itemSize = blueberrySeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(blueberrySeedIcon, blueberrySeedBtnX + itemOffset, blueberrySeedBtnY + itemOffset, itemSize, itemSize);
 
 
 
@@ -745,7 +795,7 @@ function draw() {
   text(formatedCoins + " coins", 335, 670); 
   textAlign(LEFT, BASELINE); 
 
-
+  
 
 
   if (currentSeed === 1) { 
@@ -760,6 +810,10 @@ function draw() {
     text("marigold seed (" + marigoldPurchasePrice + " coins)", 20, 65);
   } else if (currentSeed === 6) {
     text("herb seed (" + herbPurchasePrice + " coins)", 20, 65);
+  } else if (currentSeed === 7) {
+    text("pumpkin seed (" + pumpkinPurchasePrice + " coins)", 20, 65);
+  } else if (currentSeed === 8) {
+    text("blueberry (" + formatMoney(blueberryPurchasePrice) + " coins)", 20, 65);
   } 
 
   fill(0);
@@ -792,6 +846,10 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
     btnTooltip = "select marigold";
   } else if (isShopOpen && mouseX >= herbSeedBtnX && mouseX <= herbSeedBtnX + herbSeedBtnSize && mouseY >= herbSeedBtnY && mouseY <= herbSeedBtnY + herbSeedBtnSize) {
     btnTooltip = "select herb";
+  } else if (isShopOpen && mouseX >= pumpkinSeedBtnX && mouseX <= pumpkinSeedBtnX + pumpkinSeedBtnSize && mouseY >= pumpkinSeedBtnY && mouseY <= pumpkinSeedBtnY + pumpkinSeedBtnSize) {
+    btnTooltip = "select pumpkin";
+  } else if (isShopOpen && mouseX >= blueberrySeedBtnX && mouseX <= blueberrySeedBtnX + blueberrySeedBtnSize && mouseY >= blueberrySeedBtnY && mouseY <= blueberrySeedBtnY + blueberrySeedBtnSize) {
+    btnTooltip = "select blueberries";
   } 
 
 
@@ -834,6 +892,10 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
         tooltipText = "harvest marigold (get " + marigoldSellPrice + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 6) {
         tooltipText = "harvest herb (get " + herbSellPrice + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 7) {
+        tooltipText = "harvest pumpkin (get " + pumpkinSellPrice + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 8) {
+        tooltipText = "harvest bluberries (get " + formatMoney(blueberrySellPrice) + " coins)";
       }
 
 
