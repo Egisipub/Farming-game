@@ -50,18 +50,22 @@ const growthTimeHerb= 7200; //2 mins
 
 const pumpkinSellPrice = 6711;
 const pumpkinPurchasePrice = 5369;
-const growthTimePumpkin= 9000; //2.5 mins
+const growthTimePumpkin= 90; //2.5 mins
 
 const blueberrySellPrice = 21457.5;
 const blueberryPurchasePrice = 17166;
-const growthTimeBlueberry= 10800; //3 mins
+const growthTimeBlueberry= 108; //3 mins
+
+const radishSellPrice = 54131;
+const radishPurchasePrice = 67664;
+const growthTimeRadish= 180; //5 mins
 
 
 
 
 var watered = [];
 var waterTimers = [];
-const waterDuration = 18000; // 5 minutes
+const waterDuration = 18010; // 5 minutes and a bit
 
 
 
@@ -147,6 +151,15 @@ const blueberrySeedBtnSize = 64;
 
 
 //row 3
+
+const radishSeedBtnX = 140;
+const radishSeedBtnY = 310;
+const radishSeedBtnSize = 64;
+
+
+
+
+
 
 level = [ 
   "22222222222222222222", 
@@ -245,6 +258,8 @@ function drawLevel() {
         image(pumpkinSprite, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 8) {
         image(blueberrySprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 9) {
+        image(radishSprite, x + offset, y + offset, imgSize, imgSize);
       }
 
 
@@ -271,6 +286,8 @@ function drawLevel() {
         image(pumpkinGrown, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 8) {
         image(blueberryGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 9) {
+        image(radishGrown, x + offset, y + offset, imgSize, imgSize);
       } 
       
       
@@ -361,6 +378,7 @@ function mousePressed() {
       else if (seeds[mouseTileY][mouseTileX] === 6) coins += herbSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 7) coins += pumpkinSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 8) coins += blueberrySellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 9) coins += radishSellPrice
 
 
       seeds[mouseTileY][mouseTileX] = 0;
@@ -376,7 +394,8 @@ function mousePressed() {
             currentSeed === 5 ? marigoldPurchasePrice:
             currentSeed === 6 ? herbPurchasePrice:
             currentSeed === 7 ? pumpkinPurchasePrice:
-            blueberryPurchasePrice;
+            currentSeed === 8 ? blueberryPurchasePrice:
+            radishPurchasePrice;
 
 
 
@@ -394,6 +413,8 @@ function mousePressed() {
     else if (currentSeed === 6) growthTimers[mouseTileY][mouseTileX] = growthTimeHerb;
     else if (currentSeed === 7) growthTimers[mouseTileY][mouseTileX] = growthTimePumpkin;
     else if (currentSeed === 8) growthTimers[mouseTileY][mouseTileX] = growthTimeBlueberry;
+    else if (currentSeed === 9) growthTimers[mouseTileY][mouseTileX] = growthTimeRadish;
+
 
 
 
@@ -480,6 +501,11 @@ async function setup() {
   blueberryGrown = await loadImage('assets/blueberry.png');
   blueberrySprite = await loadImage('assets/blueberrySeed.png');
   blueberrySeedIcon = await loadImage('assets/blueberrySeedIcon.png');
+
+  radishGrown = await loadImage('assets/radish.png');
+  radishSprite = await loadImage('assets/radishSeed.png');
+  radishSeedIcon = await loadImage('assets/radishSeedIcon.png');
+
 
 
 
@@ -779,6 +805,26 @@ function draw() {
     image(blueberrySeedIcon, blueberrySeedBtnX + itemOffset, blueberrySeedBtnY + itemOffset, itemSize, itemSize);
 
 
+    itemSize = radishSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= radishSeedBtnX && mouseX <= radishSeedBtnX + radishSeedBtnSize && 
+        mouseY >= radishSeedBtnY && mouseY <= radishSeedBtnY + radishSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = radishSeedBtnSize - 8; 
+        itemOffset = 4;
+
+        currentSeed = 9;
+      } else {
+        itemSize = radishSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(radishSeedIcon, radishSeedBtnX + itemOffset, radishSeedBtnY + itemOffset, itemSize, itemSize);
+
+
+
+
+
 
   }
 
@@ -814,7 +860,15 @@ function draw() {
     text("pumpkin seed (" + pumpkinPurchasePrice + " coins)", 20, 65);
   } else if (currentSeed === 8) {
     text("blueberry (" + formatMoney(blueberryPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 9) {
+    text("radish (" + formatMoney(radishPurchasePrice) + " coins)", 20, 65);
   } 
+
+
+
+
+
+
 
   fill(0);
 
@@ -850,6 +904,8 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
     btnTooltip = "select pumpkin";
   } else if (isShopOpen && mouseX >= blueberrySeedBtnX && mouseX <= blueberrySeedBtnX + blueberrySeedBtnSize && mouseY >= blueberrySeedBtnY && mouseY <= blueberrySeedBtnY + blueberrySeedBtnSize) {
     btnTooltip = "select blueberries";
+  } else if (isShopOpen && mouseX >= radishSeedBtnX && mouseX <= radishSeedBtnX + radishSeedBtnSize && mouseY >= radishSeedBtnY && mouseY <= radishSeedBtnY + radishSeedBtnSize) {
+    btnTooltip = "select radish";
   } 
 
 
@@ -895,7 +951,9 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
       } else if (seeds[mouseTileY][mouseTileX] === 7) {
         tooltipText = "harvest pumpkin (get " + pumpkinSellPrice + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 8) {
-        tooltipText = "harvest bluberries (get " + formatMoney(blueberrySellPrice) + " coins)";
+        tooltipText = "harvest blueberries (get " + formatMoney(blueberrySellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 9) {
+        tooltipText = "harvest radish (get " + formatMoney(radishSellPrice) + " coins)";
       }
 
 
@@ -908,8 +966,18 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
       text(tooltipText, mouseX, mouseY - 20);
       textAlign(LEFT, BASELINE);
     }
+
+
+
+    
   }
   noStroke();
+
+
+  textSize(24);
+  fill(0);
+  
+  
 }
 
 
