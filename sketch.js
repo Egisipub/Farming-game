@@ -28,7 +28,7 @@ var onFarm = false;
 
 var seeds = []; 
 
-let coins = 999999999999999.0; 
+let coins = 9999999995.0; 
 
 let formatedCoins = "0.0"; 
 
@@ -88,7 +88,9 @@ const garlicSellPrice = 2125000;
 const garlicPurchasePrice = 1700000;
 const growthTimeGarlic = 19100; //5.5 mins
 
-
+const plettuceSellPrice = 6875000;
+const plettucePurchasePrice = 5500000;
+const growthTimePlettuce = 20200; //6 mins
 
 
 
@@ -118,6 +120,16 @@ var radishSprite, radishGrown, radishSeedIcon;
 var celerySprite, celeryGrown, celerySeedIcon;
 var leekSprite, leekGrown, leekSeedIcon;
 var garlicSprite, garlicGrown, garlicSeedIcon;
+var plettuceSprite, plettuceGrown, plettuceSeedIcon;
+
+
+
+
+
+
+
+
+
 
 var bgMusic; 
 
@@ -203,7 +215,9 @@ const garlicSeedBtnSize = 64;
 //row 4
 
 
-
+const plettuceSeedBtnX = 140;
+const plettuceSeedBtnY = 390;
+const plettuceSeedBtnSize = 64;
 
 
 
@@ -325,6 +339,8 @@ function drawLevel() {
         image(leekSprite, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 12) {
         image(garlicSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 13) {
+        image(plettuceSprite, x + offset, y + offset, imgSize, imgSize);
       }
 
 
@@ -360,6 +376,8 @@ function drawLevel() {
         image(leekGrown, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 12) {
         image(garlicGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 13) {
+        image(plettuceGrown, x + offset, y + offset, imgSize, imgSize);
       } 
       
       
@@ -454,7 +472,7 @@ function mousePressed() {
       else if (seeds[mouseTileY][mouseTileX] === 10) coins += celerySellPrice
       else if (seeds[mouseTileY][mouseTileX] === 11) coins += leekSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 12) coins += garlicSellPrice
-
+      else if (seeds[mouseTileY][mouseTileX] === 13) coins += plettuceSellPrice
 
 
       seeds[mouseTileY][mouseTileX] = 0;
@@ -474,7 +492,8 @@ function mousePressed() {
             currentSeed === 9 ? radishPurchasePrice:
             currentSeed === 10 ? celeryPurchasePrice:
             currentSeed === 11 ? leekPurchasePrice:
-            garlicPurchasePrice;
+            currentSeed === 12 ? garlicPurchasePrice:
+            plettucePurchasePrice;
 
 
 
@@ -496,6 +515,11 @@ function mousePressed() {
     else if (currentSeed === 10) growthTimers[mouseTileY][mouseTileX] = growthTimeCelery;
     else if (currentSeed === 11) growthTimers[mouseTileY][mouseTileX] = growthTimeLeek;
     else if (currentSeed === 12) growthTimers[mouseTileY][mouseTileX] = growthTimeGarlic;
+    else if (currentSeed === 13) growthTimers[mouseTileY][mouseTileX] = growthTimePlettuce;
+
+
+
+
 
     coins -= cost;
   }
@@ -598,6 +622,9 @@ async function setup() {
   garlicSeedIcon = await loadImage('assets/garlicSeedIcon.png');
 
 
+  plettuceGrown = await loadImage('assets/plettuce.png');
+  plettuceSprite = await loadImage('assets/plettuceSeed.png');
+  plettuceSeedIcon = await loadImage('assets/plettuceSeedIcon.png');
 
 
 
@@ -964,7 +991,21 @@ function draw() {
 
 
 
+    itemSize = plettuceSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= plettuceSeedBtnX && mouseX <= plettuceSeedBtnX + plettuceSeedBtnSize && 
+        mouseY >= plettuceSeedBtnY && mouseY <= plettuceSeedBtnY + plettuceSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = plettuceSeedBtnSize - 8; 
+        itemOffset = 4;
 
+        currentSeed = 13;
+      } else {
+        itemSize = plettuceSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(plettuceSeedIcon, plettuceSeedBtnX + itemOffset, plettuceSeedBtnY + itemOffset, itemSize, itemSize);
 
 
 
@@ -1025,6 +1066,8 @@ function draw() {
     text("leek (" + formatMoney(leekPurchasePrice) + " coins)", 20, 65);
   } else if (currentSeed === 12) {
     text("garlic (" + formatMoney(garlicPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 13) {
+    text("red lettuce (" + formatMoney(plettucePurchasePrice) + " coins)", 20, 65);
   } 
 
 
@@ -1075,6 +1118,8 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
     btnTooltip = "select leek";
   } else if (isShopOpen && mouseX >= garlicSeedBtnX && mouseX <= garlicSeedBtnX + garlicSeedBtnSize && mouseY >= garlicSeedBtnY && mouseY <= garlicSeedBtnY + garlicSeedBtnSize) {
     btnTooltip = "select garlic";
+  } else if (isShopOpen && mouseX >= plettuceSeedBtnX && mouseX <= plettuceSeedBtnX + plettuceSeedBtnSize && mouseY >= plettuceSeedBtnY && mouseY <= plettuceSeedBtnY + plettuceSeedBtnSize) {
+    btnTooltip = "select red lettuce";
   } 
 
 
@@ -1130,6 +1175,8 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
         tooltipText = "harvest leek (get " + formatMoney(leekSellPrice) + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 12) {
         tooltipText = "harvest garlic (get " + formatMoney(garlicSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 13) {
+        tooltipText = "harvest red lettuce (get " + formatMoney(plettuceSellPrice) + " coins)";
       }
 
 
