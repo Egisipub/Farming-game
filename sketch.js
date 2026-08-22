@@ -5,7 +5,6 @@
 //ahhhhhhhh
 
 
-//afk checker:
 
 
 
@@ -73,18 +72,30 @@ const blueberrySellPrice = 21457.5;
 const blueberryPurchasePrice = 17166;
 const growthTimeBlueberry= 10800; //3 mins
 
-const radishSellPrice = 54131;
-const radishPurchasePrice = 67664;
+const radishSellPrice = 67664;
+const radishPurchasePrice = 54131;
 const growthTimeRadish= 18000; //5 mins
 
 const celerySellPrice = 213524;
 const celeryPurchasePrice = 170819;
 const growthTimeCelery= 18000; //5 mins
 
+const leekSellPrice = 673750;
+const leekPurchasePrice = 539000;
+const growthTimeLeek= 19100; //5.5 mins
+
+const garlicSellPrice = 2125000;
+const garlicPurchasePrice = 1700000;
+const growthTimeGarlic = 19100; //5.5 mins
+
+
+
+
+
 
 var watered = [];
 var waterTimers = [];
-const waterDuration = 18010; // 5 minutes and a bit
+const waterDuration = 18100; // 5 minutes and a bit
 
 
 
@@ -105,7 +116,8 @@ var pumpkinSprite, pumpkinGrown, pumpkinSeedIcon;
 var blueberrySprite, blueberryGrown, blueberrySeedIcon;
 var radishSprite, radishGrown, radishSeedIcon;
 var celerySprite, celeryGrown, celerySeedIcon;
-
+var leekSprite, leekGrown, leekSeedIcon;
+var garlicSprite, garlicGrown, garlicSeedIcon;
 
 var bgMusic; 
 
@@ -178,6 +190,32 @@ const radishSeedBtnSize = 64;
 const celerySeedBtnX = 224;
 const celerySeedBtnY = 310;
 const celerySeedBtnSize = 64;
+
+const leekSeedBtnX = 310;
+const leekSeedBtnY = 310;
+const leekSeedBtnSize = 64;
+
+const garlicSeedBtnX = 400;
+const garlicSeedBtnY = 310;
+const garlicSeedBtnSize = 64;
+
+
+//row 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -281,7 +319,14 @@ function drawLevel() {
         image(blueberrySprite, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 9) {
         image(radishSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 10) {
+        image(celerySprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 11) {
+        image(leekSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 12) {
+        image(garlicSprite, x + offset, y + offset, imgSize, imgSize);
       }
+
 
 
 
@@ -309,6 +354,12 @@ function drawLevel() {
         image(blueberryGrown, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 9) {
         image(radishGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 10) {
+        image(celeryGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 11) {
+        image(leekGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 12) {
+        image(garlicGrown, x + offset, y + offset, imgSize, imgSize);
       } 
       
       
@@ -400,6 +451,10 @@ function mousePressed() {
       else if (seeds[mouseTileY][mouseTileX] === 7) coins += pumpkinSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 8) coins += blueberrySellPrice
       else if (seeds[mouseTileY][mouseTileX] === 9) coins += radishSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 10) coins += celerySellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 11) coins += leekSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 12) coins += garlicSellPrice
+
 
 
       seeds[mouseTileY][mouseTileX] = 0;
@@ -416,7 +471,10 @@ function mousePressed() {
             currentSeed === 6 ? herbPurchasePrice:
             currentSeed === 7 ? pumpkinPurchasePrice:
             currentSeed === 8 ? blueberryPurchasePrice:
-            radishPurchasePrice;
+            currentSeed === 9 ? radishPurchasePrice:
+            currentSeed === 10 ? celeryPurchasePrice:
+            currentSeed === 11 ? leekPurchasePrice:
+            garlicPurchasePrice;
 
 
 
@@ -435,9 +493,9 @@ function mousePressed() {
     else if (currentSeed === 7) growthTimers[mouseTileY][mouseTileX] = growthTimePumpkin;
     else if (currentSeed === 8) growthTimers[mouseTileY][mouseTileX] = growthTimeBlueberry;
     else if (currentSeed === 9) growthTimers[mouseTileY][mouseTileX] = growthTimeRadish;
-
-
-
+    else if (currentSeed === 10) growthTimers[mouseTileY][mouseTileX] = growthTimeCelery;
+    else if (currentSeed === 11) growthTimers[mouseTileY][mouseTileX] = growthTimeLeek;
+    else if (currentSeed === 12) growthTimers[mouseTileY][mouseTileX] = growthTimeGarlic;
 
     coins -= cost;
   }
@@ -527,6 +585,17 @@ async function setup() {
   radishSprite = await loadImage('assets/radishSeed.png');
   radishSeedIcon = await loadImage('assets/radishSeedIcon.png');
 
+  celeryGrown = await loadImage('assets/celery.png');
+  celerySprite = await loadImage('assets/celerySeed.png');
+  celerySeedIcon = await loadImage('assets/celerySeedIcon.png');
+
+  leekGrown = await loadImage('assets/leek.png');
+  leekSprite = await loadImage('assets/leekSeed.png');
+  leekSeedIcon = await loadImage('assets/leekSeedIcon.png');
+
+  garlicGrown = await loadImage('assets/garlic.png');
+  garlicSprite = await loadImage('assets/garlicSeed.png');
+  garlicSeedIcon = await loadImage('assets/garlicSeedIcon.png');
 
 
 
@@ -844,6 +913,73 @@ function draw() {
 
 
 
+    itemSize = celerySeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= celerySeedBtnX && mouseX <= celerySeedBtnX + celerySeedBtnSize && 
+        mouseY >= celerySeedBtnY && mouseY <= celerySeedBtnY + celerySeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = celerySeedBtnSize - 8; 
+        itemOffset = 4;
+
+        currentSeed = 10;
+      } else {
+        itemSize = celerySeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(celerySeedIcon, celerySeedBtnX + itemOffset, celerySeedBtnY + itemOffset, itemSize, itemSize);
+
+
+    itemSize = leekSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= leekSeedBtnX && mouseX <= leekSeedBtnX + leekSeedBtnSize && 
+        mouseY >= leekSeedBtnY && mouseY <= leekSeedBtnY + leekSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = leekSeedBtnSize - 8; 
+        itemOffset = 4;
+
+        currentSeed = 11;
+      } else {
+        itemSize = leekSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(leekSeedIcon, leekSeedBtnX + itemOffset, leekSeedBtnY + itemOffset, itemSize, itemSize);
+
+    itemSize = garlicSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= garlicSeedBtnX && mouseX <= garlicSeedBtnX + garlicSeedBtnSize && 
+        mouseY >= garlicSeedBtnY && mouseY <= garlicSeedBtnY + garlicSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = garlicSeedBtnSize - 8; 
+        itemOffset = 4;
+
+        currentSeed = 12;
+      } else {
+        itemSize = garlicSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(garlicSeedIcon, garlicSeedBtnX + itemOffset, garlicSeedBtnY + itemOffset, itemSize, itemSize);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -883,6 +1019,12 @@ function draw() {
     text("blueberry (" + formatMoney(blueberryPurchasePrice) + " coins)", 20, 65);
   } else if (currentSeed === 9) {
     text("radish (" + formatMoney(radishPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 10) {
+    text("celery (" + formatMoney(celeryPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 11) {
+    text("leek (" + formatMoney(leekPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 12) {
+    text("garlic (" + formatMoney(garlicPurchasePrice) + " coins)", 20, 65);
   } 
 
 
@@ -927,7 +1069,14 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
     btnTooltip = "select blueberries";
   } else if (isShopOpen && mouseX >= radishSeedBtnX && mouseX <= radishSeedBtnX + radishSeedBtnSize && mouseY >= radishSeedBtnY && mouseY <= radishSeedBtnY + radishSeedBtnSize) {
     btnTooltip = "select radish";
+  } else if (isShopOpen && mouseX >= celerySeedBtnX && mouseX <= celerySeedBtnX + celerySeedBtnSize && mouseY >= celerySeedBtnY && mouseY <= celerySeedBtnY + celerySeedBtnSize) {
+    btnTooltip = "select celery";
+  } else if (isShopOpen && mouseX >= leekSeedBtnX && mouseX <= leekSeedBtnX + leekSeedBtnSize && mouseY >= leekSeedBtnY && mouseY <= leekSeedBtnY + leekSeedBtnSize) {
+    btnTooltip = "select leek";
+  } else if (isShopOpen && mouseX >= garlicSeedBtnX && mouseX <= garlicSeedBtnX + garlicSeedBtnSize && mouseY >= garlicSeedBtnY && mouseY <= garlicSeedBtnY + garlicSeedBtnSize) {
+    btnTooltip = "select garlic";
   } 
+
 
 
 
@@ -975,6 +1124,12 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
         tooltipText = "harvest blueberries (get " + formatMoney(blueberrySellPrice) + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 9) {
         tooltipText = "harvest radish (get " + formatMoney(radishSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 10) {
+        tooltipText = "harvest celery (get " + formatMoney(celerySellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 11) {
+        tooltipText = "harvest leek (get " + formatMoney(leekSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 12) {
+        tooltipText = "harvest garlic (get " + formatMoney(garlicSellPrice) + " coins)";
       }
 
 
