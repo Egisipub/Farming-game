@@ -4,6 +4,20 @@
 
 //ahhhhhhhh
 
+
+//afk checker:
+
+
+
+
+
+
+
+
+
+
+
+
 const numTilesX = 20; 
 const numTilesY = 10; 
 const tileSize = 72; 
@@ -24,12 +38,15 @@ var untilled = [];
 var growthTimers = []; 
 
 
+
+
+
 const carrotSellPrice = 6.25;
 const carrotPurchasePrice = 5;
 const growthTimeCarrot = 900; //15 sec
 
-const lettuceSellPrice = 20
-const lettucePurchasePrice = 16
+const lettuceSellPrice = 20;
+const lettucePurchasePrice = 16;
 const growthTimeLettuce = 1800; //30 sec
 
 const potatoSellPrice = 61.75;
@@ -42,7 +59,7 @@ const growthTimeBroccoli= 3600; //1 min
 
 const marigoldSellPrice = 655;
 const marigoldPurchasePrice = 524;
-const growthTimeMarigold= 5400; //1.5 mins
+const growthTimeMarigold= 5400; //1.5
 
 const herbSellPrice = 2097.5;
 const herbPurchasePrice = 1678;
@@ -50,17 +67,19 @@ const growthTimeHerb= 7200; //2 mins
 
 const pumpkinSellPrice = 6711;
 const pumpkinPurchasePrice = 5369;
-const growthTimePumpkin= 90; //2.5 mins
+const growthTimePumpkin= 9000; //2.5 mins
 
 const blueberrySellPrice = 21457.5;
 const blueberryPurchasePrice = 17166;
-const growthTimeBlueberry= 108; //3 mins
+const growthTimeBlueberry= 10800; //3 mins
 
 const radishSellPrice = 54131;
 const radishPurchasePrice = 67664;
-const growthTimeRadish= 180; //5 mins
+const growthTimeRadish= 18000; //5 mins
 
-
+const celerySellPrice = 213524;
+const celeryPurchasePrice = 170819;
+const growthTimeCelery= 18000; //5 mins
 
 
 var watered = [];
@@ -84,8 +103,8 @@ var marigoldSprite, marigoldGrown, marigoldSeedIcon;
 var herbSprite, herbGrown, herbSeedIcon;
 var pumpkinSprite, pumpkinGrown, pumpkinSeedIcon;
 var blueberrySprite, blueberryGrown, blueberrySeedIcon;
-
-
+var radishSprite, radishGrown, radishSeedIcon;
+var celerySprite, celeryGrown, celerySeedIcon;
 
 
 var bgMusic; 
@@ -156,7 +175,9 @@ const radishSeedBtnX = 140;
 const radishSeedBtnY = 310;
 const radishSeedBtnSize = 64;
 
-
+const celerySeedBtnX = 224;
+const celerySeedBtnY = 310;
+const celerySeedBtnSize = 64;
 
 
 
@@ -164,13 +185,13 @@ const radishSeedBtnSize = 64;
 level = [ 
   "22222222222222222222", 
   "00000000000000000000", 
-  "00000000111111111100", 
+  "00000000111111111110", 
   "00000000000000000000", 
-  "00000000111111111100", 
+  "00000000111111111110", 
   "00000000000000000000", 
-  "00000000111111111100", 
+  "00000000111111111110", 
   "00000000000000000000", 
-  "00000000111111111100", 
+  "00000000111111111110", 
   "00000000000000000000" 
 ]; 
 
