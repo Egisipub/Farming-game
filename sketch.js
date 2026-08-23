@@ -7,7 +7,7 @@
 
 
 
-//yes a
+//yes afk
 
 
 
@@ -28,7 +28,7 @@ var onFarm = false;
 
 var seeds = []; 
 
-let coins = 99999999999999999995.0; 
+let coins = 999999999999999995.0; 
 
 let formatedCoins = "0.0"; 
 
@@ -188,6 +188,14 @@ var bgMusic;
 var audioStarted = false; 
 
 var isShopOpen = false;
+
+var isAchievementsOpen = false;
+
+
+
+
+
+
 
 const seedBtnX = 550; 
 const seedBtnY = 10; 
@@ -361,11 +369,11 @@ function drawLevel() {
         mouseTileX = col; 
         mouseTileY = row; 
         if (squareType === "1") { 
-          if (!isShopOpen) {
-            onFarm = true; 
-            highlightX = x; 
-            highlightY = y; 
-          }
+          
+          onFarm = true; 
+          highlightX = x; 
+          highlightY = y; 
+          
         } 
       } 
 
@@ -551,10 +559,14 @@ function mousePressed() {
 
  
 
-  if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY && mouseY <= achiBtnY + achiBtnSize) { 
-    console.log("Achievements Button Clicked!"); 
-    return; 
-  } 
+if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
+    mouseY >= achiBtnY && mouseY <= achiBtnY + achiBtnSize) {
+
+    isAchievementsOpen = true;
+    isShopOpen = false;  
+    return;
+}
+
 
   if (mouseX >= seedBtnX && mouseX <= seedBtnX + seedBtnSize && mouseY >= seedBtnY && mouseY <= seedBtnY + seedBtnSize) { 
     
@@ -562,7 +574,7 @@ function mousePressed() {
     return; 
   } 
 
-  if (isShopOpen) return;
+ 
 
   if (mouseTileX >= 0 && mouseTileX < numTilesX && mouseTileY >= 0 && mouseTileY < numTilesY) { 
     if (onFarm) {
@@ -956,6 +968,56 @@ function draw() {
     image(backIcon, backBtnX + backOffset, backBtnY + backOffset, backSize, backSize); 
   }
 
+  if (isAchievementsOpen) {
+    if (mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize &&
+        mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
+
+      if (mouseIsPressed) {
+        backSize = backBtnSize - 8;
+        backOffset = 4;
+        
+        isAchievementsOpen = false;
+        
+
+      } else {
+        backSize = backBtnSize + 8;
+        backOffset = -4;
+      }
+    }
+}
+
+
+
+
+
+
+
+  if (isAchievementsOpen) {
+    image(shopWindow, 120, 135, 360, 450);
+
+    // Back button animation (same as shop)
+    let backSize = backBtnSize;
+    let backOffset = 0;
+
+    if (mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize &&
+        mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
+
+        if (mouseIsPressed) {
+            backSize = backBtnSize - 8;
+            backOffset = 4;
+        } else {
+            backSize = backBtnSize + 8;
+            backOffset = -4;
+        }
+    }
+
+    image(backIcon, backBtnX + backOffset, backBtnY + backOffset, backSize, backSize);
+
+    // Placeholder text (you can replace later)
+    fill(255);
+    textSize(32);
+    text("Achievements", 160, 200);
+}
 
 
 
