@@ -205,20 +205,20 @@ const backBtnSize = 56;
 //buttons for getting seeds n stuff
 
 const carrotSeedBtnX = 140;
-const carrotSeedBtnY = 150;
-const carrotSeedBtnSize = 64;
+const carrotSeedBtnY = 145;
+const carrotSeedBtnSize = 54;
 
 const lettuceSeedBtnX = 224;
-const lettuceSeedBtnY = 150;
-const lettuceSeedBtnSize = 64;
+const lettuceSeedBtnY = 145;
+const lettuceSeedBtnSize = 54;
 
 const potatoSeedBtnX = 310;
-const potatoSeedBtnY = 150;
-const potatoSeedBtnSize = 64;
+const potatoSeedBtnY = 145;
+const potatoSeedBtnSize = 54;
 
 const broccoliSeedBtnX = 400;
-const broccoliSeedBtnY = 150;
-const broccoliSeedBtnSize = 64;
+const broccoliSeedBtnY = 145;
+const broccoliSeedBtnSize = 54;
 
 
 
@@ -227,20 +227,20 @@ const broccoliSeedBtnSize = 64;
 //row 2
 
 const marigoldSeedBtnX = 140;
-const marigoldSeedBtnY = 230;
-const marigoldSeedBtnSize = 64;
+const marigoldSeedBtnY = 210;
+const marigoldSeedBtnSize = 54;
 
 const herbSeedBtnX = 224;
-const herbSeedBtnY = 230;
-const herbSeedBtnSize = 64;
+const herbSeedBtnY = 210;
+const herbSeedBtnSize = 54;
 
 const pumpkinSeedBtnX = 310;
-const pumpkinSeedBtnY = 230;
-const pumpkinSeedBtnSize = 64;
+const pumpkinSeedBtnY = 210;
+const pumpkinSeedBtnSize = 54;
 
 const blueberrySeedBtnX = 400;
-const blueberrySeedBtnY = 230;
-const blueberrySeedBtnSize = 64;
+const blueberrySeedBtnY = 210;
+const blueberrySeedBtnSize = 54;
 
 
 
@@ -248,70 +248,70 @@ const blueberrySeedBtnSize = 64;
 //row 3
 
 const radishSeedBtnX = 140;
-const radishSeedBtnY = 310;
-const radishSeedBtnSize = 64;
+const radishSeedBtnY = 290;
+const radishSeedBtnSize = 54;
 
 const celerySeedBtnX = 224;
-const celerySeedBtnY = 310;
-const celerySeedBtnSize = 64;
+const celerySeedBtnY = 290;
+const celerySeedBtnSize = 54;
 
 const leekSeedBtnX = 310;
-const leekSeedBtnY = 310;
-const leekSeedBtnSize = 64;
+const leekSeedBtnY = 290;
+const leekSeedBtnSize = 54;
 
 const garlicSeedBtnX = 400;
-const garlicSeedBtnY = 310;
-const garlicSeedBtnSize = 64;
+const garlicSeedBtnY = 290;
+const garlicSeedBtnSize = 54;
 
 
 //row 4
 
 
 const plettuceSeedBtnX = 140;
-const plettuceSeedBtnY = 390;
-const plettuceSeedBtnSize = 64;
+const plettuceSeedBtnY = 370;
+const plettuceSeedBtnSize = 54;
 
 const watermelonSeedBtnX = 224;
-const watermelonSeedBtnY = 390;
-const watermelonSeedBtnSize = 64;
+const watermelonSeedBtnY = 370;
+const watermelonSeedBtnSize = 54;
 
 const turnipSeedBtnX = 310;
-const turnipSeedBtnY = 390;
-const turnipSeedBtnSize = 64;
+const turnipSeedBtnY = 370;
+const turnipSeedBtnSize = 54;
 
 const cabbageSeedBtnX = 400;
-const cabbageSeedBtnY = 390;
-const cabbageSeedBtnSize = 64;
+const cabbageSeedBtnY = 370;
+const cabbageSeedBtnSize = 54;
 
 
 //row 5 
 
 const onionSeedBtnX = 140;
-const onionSeedBtnY = 470;
-const onionSeedBtnSize = 64;
+const onionSeedBtnY = 450;
+const onionSeedBtnSize = 54;
 
 const lavenderSeedBtnX = 224;
-const lavenderSeedBtnY = 470;
-const lavenderSeedBtnSize = 64;
+const lavenderSeedBtnY = 450;
+const lavenderSeedBtnSize = 54;
 
 const cornSeedBtnX = 310;
-const cornSeedBtnY = 470;
-const cornSeedBtnSize = 64;
+const cornSeedBtnY = 450;
+const cornSeedBtnSize = 54;
 
 const pepperSeedBtnX = 400;
-const pepperSeedBtnY = 470;
-const pepperSeedBtnSize = 64;
+const pepperSeedBtnY = 450;
+const pepperSeedBtnSize = 54;
 
 
 //row 6 
 
 const tomatoSeedBtnX = 140;
-const tomatoSeedBtnY = 550;
-const tomatoSeedBtnSize = 64;
+const tomatoSeedBtnY = 520;
+const tomatoSeedBtnSize = 54;
 
 const eggplantSeedBtnX = 224;
-const eggplantSeedBtnY = 550;
-const eggplantSeedBtnSize = 64;
+const eggplantSeedBtnY = 520;
+const eggplantSeedBtnSize = 54;
 
 
 
