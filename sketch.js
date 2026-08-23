@@ -7,7 +7,7 @@
 
 
 
-
+//yes a
 
 
 
@@ -28,7 +28,7 @@ var onFarm = false;
 
 var seeds = []; 
 
-let coins = 9999999995.0; 
+let coins = 99999999999999999995.0; 
 
 let formatedCoins = "0.0"; 
 
@@ -92,6 +92,45 @@ const plettuceSellPrice = 6875000;
 const plettucePurchasePrice = 5500000;
 const growthTimePlettuce = 20200; //6 mins
 
+const watermelonSellPrice = 22125000;
+const watermelonPurchasePrice = 17700000;
+const growthTimeWatermelon = 24425; // 6 mins
+
+const turnipSellPrice = 70875000;
+const turnipPurchasePrice = 56700000;
+const growthTimeTurnip = 28650; // 8 mins
+
+const cabbageSellPrice = 226250000;
+const cabbagePurchasePrice = 181000000;
+const growthTimeCabbage = 32875; // 9 mins
+
+const onionSellPrice = 725000000;
+const onionPurchasePrice = 580000000;
+const growthTimeOnion = 37100; // 10 mins
+
+const lavenderSellPrice = 2325000000;
+const lavenderPurchasePrice = 1860000000;
+const growthTimeLavender = 41325; // 11 mins
+
+const cornSellPrice = 7450000000;
+const cornPurchasePrice = 5960000000;
+const growthTimeCorn = 45550; // 12.5 mins
+
+const pepperSellPrice = 23875000000;
+const pepperPurchasePrice = 19100000000;
+const growthTimePepper = 49775; // 13.5 mins
+
+const tomatoSellPrice = 76500000000;
+const tomatoPurchasePrice = 61200000000;
+const growthTimeTomato = 54000; // 15 mins
+
+const eggplantSellPrice = 245000000000;
+const eggplantPurchasePrice = 196000000000;
+const growthTimeEggplant = 54000; // 15 mins
+
+
+
+
 
 
 
@@ -121,8 +160,21 @@ var celerySprite, celeryGrown, celerySeedIcon;
 var leekSprite, leekGrown, leekSeedIcon;
 var garlicSprite, garlicGrown, garlicSeedIcon;
 var plettuceSprite, plettuceGrown, plettuceSeedIcon;
+var watermelonSprite, watermelonGrown, watermelonSeedIcon;
+var turnipSprite, turnipGrown, turnipSeedIcon;
+var cabbageSprite, cabbageGrown, cabbageSeedIcon;
+var onionSprite, onionGrown, onionSeedIcon;
+var lavenderSprite, lavenderGrown, lavenderSeedIcon;
+var cornSprite, cornGrown, cornSeedIcon;
+var pepperSprite, pepperGrown, pepperSeedIcon;
+var tomatoSprite, tomatoGrown, tomatoSeedIcon;
+var eggplantSprite, eggplantGrown, eggplantSeedIcon;
 
 
+
+
+
+//Watermelon, Turnip, Cabbage, Onion, Lavender, Corn, Pepper, Tomato, Eggplant
 
 
 
@@ -219,6 +271,47 @@ const plettuceSeedBtnX = 140;
 const plettuceSeedBtnY = 390;
 const plettuceSeedBtnSize = 64;
 
+const watermelonSeedBtnX = 224;
+const watermelonSeedBtnY = 390;
+const watermelonSeedBtnSize = 64;
+
+const turnipSeedBtnX = 310;
+const turnipSeedBtnY = 390;
+const turnipSeedBtnSize = 64;
+
+const cabbageSeedBtnX = 400;
+const cabbageSeedBtnY = 390;
+const cabbageSeedBtnSize = 64;
+
+
+//row 5 
+
+const onionSeedBtnX = 140;
+const onionSeedBtnY = 470;
+const onionSeedBtnSize = 64;
+
+const lavenderSeedBtnX = 224;
+const lavenderSeedBtnY = 470;
+const lavenderSeedBtnSize = 64;
+
+const cornSeedBtnX = 310;
+const cornSeedBtnY = 470;
+const cornSeedBtnSize = 64;
+
+const pepperSeedBtnX = 400;
+const pepperSeedBtnY = 470;
+const pepperSeedBtnSize = 64;
+
+
+//row 6 
+
+const tomatoSeedBtnX = 140;
+const tomatoSeedBtnY = 550;
+const tomatoSeedBtnSize = 64;
+
+const eggplantSeedBtnX = 224;
+const eggplantSeedBtnY = 550;
+const eggplantSeedBtnSize = 64;
 
 
 
@@ -341,6 +434,24 @@ function drawLevel() {
         image(garlicSprite, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 13) {
         image(plettuceSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 14) {
+        image(watermelonSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 15) {
+        image(turnipSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 16) {
+        image(cabbageSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 17) {
+        image(onionSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 18) {
+        image(lavenderSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 19) {
+        image(cornSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 20) {
+        image(pepperSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 21) {
+        image(tomatoSprite, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 22) {
+        image(eggplantSprite, x + offset, y + offset, imgSize, imgSize);
       }
 
 
@@ -378,6 +489,24 @@ function drawLevel() {
         image(garlicGrown, x + offset, y + offset, imgSize, imgSize);
       } else if (seeds[row][col] === 13) {
         image(plettuceGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 14) {
+        image(watermelonGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 15) {
+        image(turnipGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 16) {
+        image(cabbageGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 17) {
+        image(onionGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 18) {
+        image(lavenderGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 19) {
+        image(cornGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 20) {
+        image(pepperGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 21) {
+        image(tomatoGrown, x + offset, y + offset, imgSize, imgSize);
+      } else if (seeds[row][col] === 22) {
+        image(eggplantGrown, x + offset, y + offset, imgSize, imgSize);
       } 
       
       
@@ -473,6 +602,15 @@ function mousePressed() {
       else if (seeds[mouseTileY][mouseTileX] === 11) coins += leekSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 12) coins += garlicSellPrice
       else if (seeds[mouseTileY][mouseTileX] === 13) coins += plettuceSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 14) coins += watermelonSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 15) coins += turnipSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 16) coins += cabbageSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 17) coins += onionSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 18) coins += lavenderSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 19) coins += cornSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 20) coins += pepperSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 21) coins += tomatoSellPrice
+      else if (seeds[mouseTileY][mouseTileX] === 22) coins += eggplantSellPrice
 
 
       seeds[mouseTileY][mouseTileX] = 0;
@@ -493,7 +631,16 @@ function mousePressed() {
             currentSeed === 10 ? celeryPurchasePrice:
             currentSeed === 11 ? leekPurchasePrice:
             currentSeed === 12 ? garlicPurchasePrice:
-            plettucePurchasePrice;
+            currentSeed === 13 ? plettucePurchasePrice:
+            currentSeed === 14 ? watermelonPurchasePrice:
+            currentSeed === 15 ? turnipPurchasePrice:
+            currentSeed === 16 ? cabbagePurchasePrice:
+            currentSeed === 17 ? onionPurchasePrice:
+            currentSeed === 18 ? lavenderPurchasePrice:
+            currentSeed === 19 ? cornPurchasePrice:
+            currentSeed === 20 ? pepperPurchasePrice:
+            currentSeed === 21 ? tomatoPurchasePrice:
+            eggplantPurchasePrice;
 
 
 
@@ -516,6 +663,15 @@ function mousePressed() {
     else if (currentSeed === 11) growthTimers[mouseTileY][mouseTileX] = growthTimeLeek;
     else if (currentSeed === 12) growthTimers[mouseTileY][mouseTileX] = growthTimeGarlic;
     else if (currentSeed === 13) growthTimers[mouseTileY][mouseTileX] = growthTimePlettuce;
+    else if (currentSeed === 14) growthTimers[mouseTileY][mouseTileX] = growthTimeWatermelon;
+    else if (currentSeed === 15) growthTimers[mouseTileY][mouseTileX] = growthTimeTurnip;
+    else if (currentSeed === 16) growthTimers[mouseTileY][mouseTileX] = growthTimeCabbage;
+    else if (currentSeed === 17) growthTimers[mouseTileY][mouseTileX] = growthTimeOnion;
+    else if (currentSeed === 18) growthTimers[mouseTileY][mouseTileX] = growthTimeLavender;
+    else if (currentSeed === 19) growthTimers[mouseTileY][mouseTileX] = growthTimeCorn;
+    else if (currentSeed === 20) growthTimers[mouseTileY][mouseTileX] = growthTimePepper;
+    else if (currentSeed === 21) growthTimers[mouseTileY][mouseTileX] = growthTimeTomato;
+    else if (currentSeed === 22) growthTimers[mouseTileY][mouseTileX] = growthTimeEggplant;
 
 
 
@@ -626,6 +782,41 @@ async function setup() {
   plettuceSprite = await loadImage('assets/plettuceSeed.png');
   plettuceSeedIcon = await loadImage('assets/plettuceSeedIcon.png');
 
+  watermelonGrown = await loadImage('assets/watermelon.png');
+  watermelonSprite = await loadImage('assets/watermelonSeed.png');
+  watermelonSeedIcon = await loadImage('assets/watermelonSeedIcon.png');
+
+  turnipGrown = await loadImage('assets/turnip.png');
+  turnipSprite = await loadImage('assets/turnipSeed.png');
+  turnipSeedIcon = await loadImage('assets/turnipSeedIcon.png');
+
+  cabbageGrown = await loadImage('assets/cabbage.png');
+  cabbageSprite = await loadImage('assets/cabbageSeed.png');
+  cabbageSeedIcon = await loadImage('assets/cabbageSeedIcon.png');
+
+  onionGrown = await loadImage('assets/onion.png');
+  onionSprite = await loadImage('assets/onionSeed.png');
+  onionSeedIcon = await loadImage('assets/onionSeedIcon.png');
+
+  lavenderGrown = await loadImage('assets/lavender.png');
+  lavenderSprite = await loadImage('assets/lavenderSeed.png');
+  lavenderSeedIcon = await loadImage('assets/lavenderSeedIcon.png');
+
+  cornGrown = await loadImage('assets/corn.png');
+  cornSprite = await loadImage('assets/cornSeed.png');
+  cornSeedIcon = await loadImage('assets/cornSeedIcon.png');
+
+  pepperGrown = await loadImage('assets/pepper.png');
+  pepperSprite = await loadImage('assets/pepperSeed.png');
+  pepperSeedIcon = await loadImage('assets/pepperSeedIcon.png');
+
+  tomatoGrown = await loadImage('assets/tomato.png');
+  tomatoSprite = await loadImage('assets/tomatoSeed.png');
+  tomatoSeedIcon = await loadImage('assets/tomatoSeedIcon.png');
+
+  eggplantGrown = await loadImage('assets/eggplant.png');
+  eggplantSprite = await loadImage('assets/eggplantSeed.png');
+  eggplantSeedIcon = await loadImage('assets/eggplantSeedIcon.png');
 
 
 
@@ -1007,6 +1198,141 @@ function draw() {
     }
     image(plettuceSeedIcon, plettuceSeedBtnX + itemOffset, plettuceSeedBtnY + itemOffset, itemSize, itemSize);
 
+    itemSize = watermelonSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= watermelonSeedBtnX && mouseX <= watermelonSeedBtnX + watermelonSeedBtnSize &&
+        mouseY >= watermelonSeedBtnY && mouseY <= watermelonSeedBtnY + watermelonSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = watermelonSeedBtnSize - 8;
+        itemOffset = 4;
+        currentSeed = 14;
+      } else {
+        itemSize = watermelonSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(watermelonSeedIcon, watermelonSeedBtnX + itemOffset, watermelonSeedBtnY + itemOffset, itemSize, itemSize);
+
+    itemSize = turnipSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= turnipSeedBtnX && mouseX <= turnipSeedBtnX + turnipSeedBtnSize &&
+        mouseY >= turnipSeedBtnY && mouseY <= turnipSeedBtnY + turnipSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = turnipSeedBtnSize - 8;
+        itemOffset = 4;
+        currentSeed = 15;
+      } else {
+        itemSize = turnipSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(turnipSeedIcon, turnipSeedBtnX + itemOffset, turnipSeedBtnY + itemOffset, itemSize, itemSize);
+
+    itemSize = cabbageSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= cabbageSeedBtnX && mouseX <= cabbageSeedBtnX + cabbageSeedBtnSize &&
+        mouseY >= cabbageSeedBtnY && mouseY <= cabbageSeedBtnY + cabbageSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = cabbageSeedBtnSize - 8;
+        itemOffset = 4;
+        currentSeed = 16;
+      } else {
+        itemSize = cabbageSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(cabbageSeedIcon, cabbageSeedBtnX + itemOffset, cabbageSeedBtnY + itemOffset, itemSize, itemSize);
+
+    itemSize = onionSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= onionSeedBtnX && mouseX <= onionSeedBtnX + onionSeedBtnSize &&
+        mouseY >= onionSeedBtnY && mouseY <= onionSeedBtnY + onionSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = onionSeedBtnSize - 8;
+        itemOffset = 4;
+        currentSeed = 17;
+      } else {
+        itemSize = onionSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(onionSeedIcon, onionSeedBtnX + itemOffset, onionSeedBtnY + itemOffset, itemSize, itemSize);
+
+    itemSize = lavenderSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= lavenderSeedBtnX && mouseX <= lavenderSeedBtnX + lavenderSeedBtnSize &&
+        mouseY >= lavenderSeedBtnY && mouseY <= lavenderSeedBtnY + lavenderSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = lavenderSeedBtnSize - 8;
+        itemOffset = 4;
+        currentSeed = 18;
+      } else {
+        itemSize = lavenderSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(lavenderSeedIcon, lavenderSeedBtnX + itemOffset, lavenderSeedBtnY + itemOffset, itemSize, itemSize);
+
+    itemSize = cornSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= cornSeedBtnX && mouseX <= cornSeedBtnX + cornSeedBtnSize &&
+        mouseY >= cornSeedBtnY && mouseY <= cornSeedBtnY + cornSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = cornSeedBtnSize - 8;
+        itemOffset = 4;
+        currentSeed = 19;
+      } else {
+        itemSize = cornSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(cornSeedIcon, cornSeedBtnX + itemOffset, cornSeedBtnY + itemOffset, itemSize, itemSize);
+
+    itemSize = pepperSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= pepperSeedBtnX && mouseX <= pepperSeedBtnX + pepperSeedBtnSize &&
+        mouseY >= pepperSeedBtnY && mouseY <= pepperSeedBtnY + pepperSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = pepperSeedBtnSize - 8;
+        itemOffset = 4;
+        currentSeed = 20;
+      } else {
+        itemSize = pepperSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(pepperSeedIcon, pepperSeedBtnX + itemOffset, pepperSeedBtnY + itemOffset, itemSize, itemSize);
+
+    itemSize = tomatoSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= tomatoSeedBtnX && mouseX <= tomatoSeedBtnX + tomatoSeedBtnSize &&
+        mouseY >= tomatoSeedBtnY && mouseY <= tomatoSeedBtnY + tomatoSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = tomatoSeedBtnSize - 8;
+        itemOffset = 4;
+        currentSeed = 21;
+      } else {
+        itemSize = tomatoSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(tomatoSeedIcon, tomatoSeedBtnX + itemOffset, tomatoSeedBtnY + itemOffset, itemSize, itemSize);
+
+    itemSize = eggplantSeedBtnSize;
+    itemOffset = 0;
+    if (mouseX >= eggplantSeedBtnX && mouseX <= eggplantSeedBtnX + eggplantSeedBtnSize &&
+        mouseY >= eggplantSeedBtnY && mouseY <= eggplantSeedBtnY + eggplantSeedBtnSize) {
+      if (mouseIsPressed) {
+        itemSize = eggplantSeedBtnSize - 8;
+        itemOffset = 4;
+        currentSeed = 22;
+      } else {
+        itemSize = eggplantSeedBtnSize + 8;
+        itemOffset = -4;
+      }
+    }
+    image(eggplantSeedIcon, eggplantSeedBtnX + itemOffset, eggplantSeedBtnY + itemOffset, itemSize, itemSize);
+
 
 
 
@@ -1068,6 +1394,24 @@ function draw() {
     text("garlic (" + formatMoney(garlicPurchasePrice) + " coins)", 20, 65);
   } else if (currentSeed === 13) {
     text("red lettuce (" + formatMoney(plettucePurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 14) {
+    text("watermelon (" + formatMoney(watermelonPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 15) {
+    text("turnip (" + formatMoney(turnipPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 16) {
+    text("cabbage (" + formatMoney(cabbagePurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 17) {
+    text("onion (" + formatMoney(onionPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 18) {
+    text("lavender (" + formatMoney(lavenderPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 19) {
+    text("corn (" + formatMoney(cornPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 20) {
+    text("pepper (" + formatMoney(pepperPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 21) {
+    text("tomato (" + formatMoney(tomatoPurchasePrice) + " coins)", 20, 65);
+  } else if (currentSeed === 22) {
+    text("eggplant (" + formatMoney(eggplantPurchasePrice) + " coins)", 20, 65);
   } 
 
 
@@ -1120,6 +1464,24 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
     btnTooltip = "select garlic";
   } else if (isShopOpen && mouseX >= plettuceSeedBtnX && mouseX <= plettuceSeedBtnX + plettuceSeedBtnSize && mouseY >= plettuceSeedBtnY && mouseY <= plettuceSeedBtnY + plettuceSeedBtnSize) {
     btnTooltip = "select red lettuce";
+  } else if (isShopOpen && mouseX >= watermelonSeedBtnX && mouseX <= watermelonSeedBtnX + watermelonSeedBtnSize && mouseY >= watermelonSeedBtnY && mouseY <= watermelonSeedBtnY + watermelonSeedBtnSize) {
+    btnTooltip = "select watermelon";
+  } else if (isShopOpen && mouseX >= turnipSeedBtnX && mouseX <= turnipSeedBtnX + turnipSeedBtnSize && mouseY >= turnipSeedBtnY && mouseY <= turnipSeedBtnY + turnipSeedBtnSize) {
+    btnTooltip = "select turnip";
+  } else if (isShopOpen && mouseX >= cabbageSeedBtnX && mouseX <= cabbageSeedBtnX + cabbageSeedBtnSize && mouseY >= cabbageSeedBtnY && mouseY <= cabbageSeedBtnY + cabbageSeedBtnSize) {
+    btnTooltip = "select cabbage";
+  } else if (isShopOpen && mouseX >= onionSeedBtnX && mouseX <= onionSeedBtnX + onionSeedBtnSize && mouseY >= onionSeedBtnY && mouseY <= onionSeedBtnY + onionSeedBtnSize) {
+    btnTooltip = "select onion";
+  } else if (isShopOpen && mouseX >= lavenderSeedBtnX && mouseX <= lavenderSeedBtnX + lavenderSeedBtnSize && mouseY >= lavenderSeedBtnY && mouseY <= lavenderSeedBtnY + lavenderSeedBtnSize) {
+    btnTooltip = "select lavender";
+  } else if (isShopOpen && mouseX >= cornSeedBtnX && mouseX <= cornSeedBtnX + cornSeedBtnSize && mouseY >= cornSeedBtnY && mouseY <= cornSeedBtnY + cornSeedBtnSize) {
+    btnTooltip = "select corn";
+  } else if (isShopOpen && mouseX >= pepperSeedBtnX && mouseX <= pepperSeedBtnX + pepperSeedBtnSize && mouseY >= pepperSeedBtnY && mouseY <= pepperSeedBtnY + pepperSeedBtnSize) {
+    btnTooltip = "select pepper";
+  } else if (isShopOpen && mouseX >= tomatoSeedBtnX && mouseX <= tomatoSeedBtnX + tomatoSeedBtnSize && mouseY >= tomatoSeedBtnY && mouseY <= tomatoSeedBtnY + tomatoSeedBtnSize) {
+    btnTooltip = "select tomato";
+  } else if (isShopOpen && mouseX >= eggplantSeedBtnX && mouseX <= eggplantSeedBtnX + eggplantSeedBtnSize && mouseY >= eggplantSeedBtnY && mouseY <= eggplantSeedBtnY + eggplantSeedBtnSize) {
+    btnTooltip = "select eggplant";
   } 
 
 
@@ -1177,6 +1539,24 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
         tooltipText = "harvest garlic (get " + formatMoney(garlicSellPrice) + " coins)";
       } else if (seeds[mouseTileY][mouseTileX] === 13) {
         tooltipText = "harvest red lettuce (get " + formatMoney(plettuceSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 14) {
+        tooltipText = "harvest watermelon (get " + formatMoney(watermelonSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 15) {
+        tooltipText = "harvest turnip (get " + formatMoney(turnipSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 16) {
+        tooltipText = "harvest cabbage (get " + formatMoney(cabbageSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 17) {
+        tooltipText = "harvest onion (get " + formatMoney(onionSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 18) {
+        tooltipText = "harvest lavender (get " + formatMoney(lavenderSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 19) {
+        tooltipText = "harvest corn (get " + formatMoney(cornSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 20) {
+        tooltipText = "harvest pepper (get " + formatMoney(pepperSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 21) {
+        tooltipText = "harvest tomato (get " + formatMoney(tomatoSellPrice) + " coins)";
+      } else if (seeds[mouseTileY][mouseTileX] === 22) {
+        tooltipText = "harvest eggplant (get " + formatMoney(eggplantSellPrice) + " coins)";
       }
 
 
