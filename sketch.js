@@ -7,12 +7,10 @@
 
 
 
-//yes afk
 
 
 
-
-
+//afk ...
 
 
 
@@ -22,7 +20,7 @@ const numTilesY = 10;
 const tileSize = 72; 
 
 var mouseTileX = 0; 
-var mouseTileY = 0; 
+var mouseTileY = 0;
 
 var onFarm = false; 
 
@@ -170,13 +168,18 @@ var pepperSprite, pepperGrown, pepperSeedIcon;
 var tomatoSprite, tomatoGrown, tomatoSeedIcon;
 var eggplantSprite, eggplantGrown, eggplantSeedIcon;
 
+var coinAchiIcon
 
 
+//coin achivements for 100k coins 100m coins 100b coins and 100t coins and 999 T coins, (they all use the same icon:coin achi icon)
 
 
-//Watermelon, Turnip, Cabbage, Onion, Lavender, Corn, Pepper, Tomato, Eggplant
+var coinAchiMessage100k = "get 100k coins";
+var coinAchieved100k = false;
 
-
+const coinAchi100kBtnX = 140;
+const coinAchi100kBtnY = 170;
+const coinAchi100kBtnSize = 54;
 
 
 
@@ -213,19 +216,19 @@ const backBtnSize = 56;
 //buttons for getting seeds n stuff
 
 const carrotSeedBtnX = 140;
-const carrotSeedBtnY = 145;
+const carrotSeedBtnY = 170;
 const carrotSeedBtnSize = 54;
 
 const lettuceSeedBtnX = 224;
-const lettuceSeedBtnY = 145;
+const lettuceSeedBtnY = 170;
 const lettuceSeedBtnSize = 54;
 
 const potatoSeedBtnX = 310;
-const potatoSeedBtnY = 145;
+const potatoSeedBtnY = 170;
 const potatoSeedBtnSize = 54;
 
 const broccoliSeedBtnX = 400;
-const broccoliSeedBtnY = 145;
+const broccoliSeedBtnY = 170;
 const broccoliSeedBtnSize = 54;
 
 
@@ -235,19 +238,19 @@ const broccoliSeedBtnSize = 54;
 //row 2
 
 const marigoldSeedBtnX = 140;
-const marigoldSeedBtnY = 210;
+const marigoldSeedBtnY = 240;
 const marigoldSeedBtnSize = 54;
 
 const herbSeedBtnX = 224;
-const herbSeedBtnY = 210;
+const herbSeedBtnY = 240;
 const herbSeedBtnSize = 54;
 
 const pumpkinSeedBtnX = 310;
-const pumpkinSeedBtnY = 210;
+const pumpkinSeedBtnY = 240;
 const pumpkinSeedBtnSize = 54;
 
 const blueberrySeedBtnX = 400;
-const blueberrySeedBtnY = 210;
+const blueberrySeedBtnY = 240;
 const blueberrySeedBtnSize = 54;
 
 
@@ -256,19 +259,19 @@ const blueberrySeedBtnSize = 54;
 //row 3
 
 const radishSeedBtnX = 140;
-const radishSeedBtnY = 290;
+const radishSeedBtnY = 310;
 const radishSeedBtnSize = 54;
 
 const celerySeedBtnX = 224;
-const celerySeedBtnY = 290;
+const celerySeedBtnY = 310;
 const celerySeedBtnSize = 54;
 
 const leekSeedBtnX = 310;
-const leekSeedBtnY = 290;
+const leekSeedBtnY = 310;
 const leekSeedBtnSize = 54;
 
 const garlicSeedBtnX = 400;
-const garlicSeedBtnY = 290;
+const garlicSeedBtnY = 310;
 const garlicSeedBtnSize = 54;
 
 
@@ -276,19 +279,19 @@ const garlicSeedBtnSize = 54;
 
 
 const plettuceSeedBtnX = 140;
-const plettuceSeedBtnY = 370;
+const plettuceSeedBtnY = 380;
 const plettuceSeedBtnSize = 54;
 
 const watermelonSeedBtnX = 224;
-const watermelonSeedBtnY = 370;
+const watermelonSeedBtnY = 380;
 const watermelonSeedBtnSize = 54;
 
 const turnipSeedBtnX = 310;
-const turnipSeedBtnY = 370;
+const turnipSeedBtnY = 380;
 const turnipSeedBtnSize = 54;
 
 const cabbageSeedBtnX = 400;
-const cabbageSeedBtnY = 370;
+const cabbageSeedBtnY = 380;
 const cabbageSeedBtnSize = 54;
 
 
@@ -569,7 +572,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
 
 
   if (mouseX >= seedBtnX && mouseX <= seedBtnX + seedBtnSize && mouseY >= seedBtnY && mouseY <= seedBtnY + seedBtnSize) { 
-    
+    isAchievementsOpen = false;
     isShopOpen = true; 
     return; 
   } 
@@ -716,6 +719,33 @@ function formatMoney(amount) {
   return truncatedNormal.toFixed(2); 
 } 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 async function setup() { 
   createCanvas(1440, 720); 
   noStroke(); 
@@ -829,6 +859,8 @@ async function setup() {
   eggplantGrown = await loadImage('assets/eggplant.png');
   eggplantSprite = await loadImage('assets/eggplantSeed.png');
   eggplantSeedIcon = await loadImage('assets/eggplantSeedIcon.png');
+
+  coinAchiIcon = await loadImage('assets/coinAchiIcon.png')
 
 
 
@@ -966,6 +998,13 @@ function draw() {
       }
     }
     image(backIcon, backBtnX + backOffset, backBtnY + backOffset, backSize, backSize); 
+
+
+
+    textSize(34); 
+    fill(173, 148, 139);
+    text("select seeds", 180, 165);
+
   }
 
   if (isAchievementsOpen) {
@@ -1014,9 +1053,9 @@ function draw() {
     image(backIcon, backBtnX + backOffset, backBtnY + backOffset, backSize, backSize);
 
     // Placeholder text (you can replace later)
-    fill(255);
-    textSize(32);
-    text("Achievements", 160, 200);
+    textSize(34); 
+    fill(173, 148, 139);
+    text("Achievements", 175, 165);
 }
 
 
@@ -1498,9 +1537,16 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
     btnTooltip = "buy seeds";
   }
  
-  else if (isShopOpen && mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
+  else if (isShopOpen  && mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
     btnTooltip = "go back";
-  } else if (isShopOpen && mouseX >= carrotSeedBtnX && mouseX <= carrotSeedBtnX + carrotSeedBtnSize && mouseY >= carrotSeedBtnY && mouseY <= carrotSeedBtnY + carrotSeedBtnSize) {
+  }
+  
+  else if (isAchievementsOpen  && mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
+    btnTooltip = "go back";
+  }
+  
+  
+  else if (isShopOpen && mouseX >= carrotSeedBtnX && mouseX <= carrotSeedBtnX + carrotSeedBtnSize && mouseY >= carrotSeedBtnY && mouseY <= carrotSeedBtnY + carrotSeedBtnSize) {
     btnTooltip = "select carrot";
   } else if (isShopOpen && mouseX >= lettuceSeedBtnX && mouseX <= lettuceSeedBtnX + lettuceSeedBtnSize && mouseY >= lettuceSeedBtnY && mouseY <= lettuceSeedBtnY + lettuceSeedBtnSize) {
     btnTooltip = "select lettuce";
@@ -1640,10 +1686,10 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
 
 
   textSize(24);
+
+  fps = frameRate()
+
   fill(0);
-  
+  text("FPS: " + fps.toFixed(), 1340, 20);
   
 }
-
-
-
