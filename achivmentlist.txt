@@ -1,0 +1,50 @@
+achi list:
+
+coins: 
+
+-1000 coins
+
+-100k coins
+
+-100mil coins
+
+-100bil coins
+
+plants:
+
+-plant a marigold
+
+-plant a celery
+
+-plant a turnip
+
+-plant a eggplant
+
+variety:
+
+-have 4 different plants planted
+
+-have 10 different plants planted
+
+-have 16 different plants planted
+
+-have 22 different plants planted
+
+else/lore:
+
+-till every single tile
+
+-water 100 crops
+
+-plant 100 crops
+
+-water 1000 crops
+
+-plant 1000 crops
+
+-get 999 trillion coins
+
+
+
+
+

@@ -169,18 +169,135 @@ var tomatoSprite, tomatoGrown, tomatoSeedIcon;
 var eggplantSprite, eggplantGrown, eggplantSeedIcon;
 
 var coinAchiIcon
-
+var blankAchiIcon
 
 //coin achivements for 100k coins 100m coins 100b coins and 100t coins and 999 T coins, (they all use the same icon:coin achi icon)
 
+var coinAchiMessage1k = "get 1k coins";
+var coinAchieved1k = false;
 
 var coinAchiMessage100k = "get 100k coins";
 var coinAchieved100k = false;
 
-const coinAchi100kBtnX = 140;
+var coinAchiMessage100m = "get 100M coins";
+var coinAchieved100m = false;
+
+var coinAchiMessage100b = "get 100B coins";
+var coinAchieved100b = false;
+
+var plantMarigoldAchiMessage = "plant a marigold";
+var plantMarigoldAchieved = false;
+
+var plantCeleryAchiMessage = "plant a celery";
+var plantCeleryAchieved = false;
+
+var plantTurnipAchiMessage = "plant a turnip";
+var plantTurnipAchieved = false;
+
+var plantEggplantAchiMessage = "plant a eggplant";
+var plantEggplantAchieved = false;
+
+var variety4PlantsAchiMessage = "have 4 different plants planted";
+var variety4PlantsAchieved = false;
+
+var variety10PlantsAchiMessage = "have 10 different plants planted";
+var variety10PlantsAchieved = false;
+
+var variety16PlantsAchiMessage = "have 16 different plants planted";
+var variety16PlantsAchieved = false;
+
+var variety22PlantsAchiMessage = "have 22 different plants planted";
+var variety22PlantsAchieved = false;
+
+var tillAllTilesAchiMessage = "till every single tile";
+var tillAllTilesAchieved = false;
+
+var water100CropsAchiMessage = "water 100 crops";
+var water100CropsAchieved = false;
+
+var plant100CropsAchiMessage = "plant 100 crops";
+var plant100CropsAchieved = false;
+
+var water1000CropsAchiMessage = "water 1000 crops";
+var water1000CropsAchieved = false;
+
+var plant1000CropsAchiMessage = "plant 1000 crops";
+var plant1000CropsAchieved = false;
+
+var coinAchi999TMessage = "get 999 trillion coins";
+var coinAchieved999T = false;
+
+const coinAchi1kBtnX = 140;
+const coinAchi1kBtnY = 170;
+const coinAchi1kBtnSize = 54;
+
+const coinAchi100kBtnX = 224;
 const coinAchi100kBtnY = 170;
 const coinAchi100kBtnSize = 54;
 
+const coinAchi100mBtnX = 310;
+const coinAchi100mBtnY = 170;
+const coinAchi100mBtnSize = 54;
+
+const coinAchi100bBtnX = 400;
+const coinAchi100bBtnY = 170;
+const coinAchi100bBtnSize = 54;
+
+const plantMarigoldAchiBtnX = 140;
+const plantMarigoldAchiBtnY = 240;
+const plantMarigoldAchiBtnSize = 54;
+
+const plantCeleryAchiBtnX = 224;
+const plantCeleryAchiBtnY = 240;
+const plantCeleryAchiBtnSize = 54;
+
+const plantTurnipAchiBtnX = 310;
+const plantTurnipAchiBtnY = 240;
+const plantTurnipAchiBtnSize = 54;
+
+const plantEggplantAchiBtnX = 400;
+const plantEggplantAchiBtnY = 240;
+const plantEggplantAchiBtnSize = 54;
+
+const variety4PlantsAchiBtnX = 140;
+const variety4PlantsAchiBtnY = 310;
+const variety4PlantsAchiBtnSize = 54;
+
+const variety10PlantsAchiBtnX = 224;
+const variety10PlantsAchiBtnY = 310;
+const variety10PlantsAchiBtnSize = 54;
+
+const variety16PlantsAchiBtnX = 310;
+const variety16PlantsAchiBtnY = 310;
+const variety16PlantsAchiBtnSize = 54;
+
+const variety22PlantsAchiBtnX = 400;
+const variety22PlantsAchiBtnY = 310;
+const variety22PlantsAchiBtnSize = 54;
+
+const tillAllTilesAchiBtnX = 140;
+const tillAllTilesAchiBtnY = 380;
+const tillAllTilesAchiBtnSize = 54;
+
+const water100CropsAchiBtnX = 224;
+const water100CropsAchiBtnY = 380;
+const water100CropsAchiBtnSize = 54;
+
+const plant100CropsAchiBtnX = 310;
+const plant100CropsAchiBtnY = 380;
+const plant100CropsAchiBtnSize = 54;
+
+const water1000CropsAchiBtnX = 400;
+const water1000CropsAchiBtnY = 380;
+const water1000CropsAchiBtnSize = 54;
+
+const plant1000CropsAchiBtnX = 140;
+const plant1000CropsAchiBtnY = 450;
+const plant1000CropsAchiBtnSize = 54;
+
+const coinAchi999TBtnX = 224;
+const coinAchi999TBtnY = 450;
+const coinAchi999TBtnSize = 54;
 
 
 
@@ -534,7 +651,6 @@ function drawLevel() {
       noStroke(); 
     } 
   } 
-
   if (onFarm && highlightX !== -1 && highlightY !== -1) { 
     image(highlightSprite, highlightX, highlightY, tileSize, tileSize); 
   } 
@@ -551,7 +667,6 @@ function mousePressed() {
     bgMusic.play(); 
     audioStarted = true; 
   } 
-
   if (isShopOpen) {
     if (mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
       isShopOpen = false; 
@@ -860,8 +975,13 @@ async function setup() {
   eggplantSprite = await loadImage('assets/eggplantSeed.png');
   eggplantSeedIcon = await loadImage('assets/eggplantSeedIcon.png');
 
-  coinAchiIcon = await loadImage('assets/coinAchiIcon.png')
 
+
+
+
+
+  coinAchiIcon = await loadImage('assets/coinAchiIcon.png')
+  blankAchiIcon = await loadImage('assets/blankAchiIcon.png')
 
 
   bgMusic.loop = true; 
