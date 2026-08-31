@@ -1554,27 +1554,125 @@ function draw() {
     }
     image(eggplantSeedIcon, eggplantSeedBtnX + itemOffset, eggplantSeedBtnY + itemOffset, itemSize, itemSize);
 
+  }
 
 
+  if (isAchievementsOpen) {
 
-
-
-
-
-
-
-
-
-
-
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    if(coinAchieved1k){
+     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    } else {
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    }
+    
+    
 
 
 
 
   }
-
-
-
 
 
 
