@@ -26,7 +26,7 @@ var onFarm = false;
 
 var seeds = []; 
 
-let coins = 999999999999999995.0; 
+let coins = 5.0; 
 
 let formatedCoins = "0.0"; 
 
@@ -34,7 +34,8 @@ var untilled = [];
 
 var growthTimers = []; 
 
-
+var numTimesWatered = 0;
+var numTimesPlanted = 0;
 
 
 
@@ -179,58 +180,61 @@ var waterAchiIcon
 //coin achivements for 100k coins 100m coins 100b coins and 100t coins and 999 T coins, (they all use the same icon:coin achi icon)
 
 var coinAchiMessage1k = "get 1k coins";
-var coinAchieved1k = true;
+var coinAchieved1k = false;
 
 var coinAchiMessage100k = "get 100k coins";
-var coinAchieved100k = true;
+var coinAchieved100k = false;
 
 var coinAchiMessage100m = "get 100M coins";
-var coinAchieved100m = true;
+var coinAchieved100m = false;
 
 var coinAchiMessage100b = "get 100B coins";
-var coinAchieved100b = true;
+var coinAchieved100b = false;
 
 var plantMarigoldAchiMessage = "plant a marigold";
-var plantMarigoldAchieved = true;
+var plantMarigoldAchieved = false;
 
 var plantCeleryAchiMessage = "plant a celery";
-var plantCeleryAchieved = true;
+var plantCeleryAchieved = false;
 
 var plantTurnipAchiMessage = "plant a turnip";
-var plantTurnipAchieved = true;
+var plantTurnipAchieved = false;
 
 var plantEggplantAchiMessage = "plant a eggplant";
-var plantEggplantAchieved = true;
+var plantEggplantAchieved = false;
 
 var variety4PlantsAchiMessage = "have 4 different plants planted";
-var variety4PlantsAchieved = true;
+var variety4PlantsAchieved = false;
 
 var variety10PlantsAchiMessage = "have 10 different plants planted";
-var variety10PlantsAchieved = true;
+var variety10PlantsAchieved = false;
 
 var variety16PlantsAchiMessage = "have 16 different plants planted";
-var variety16PlantsAchieved = true;
+var variety16PlantsAchieved = false;
 
 var variety22PlantsAchiMessage = "have 22 different plants planted";
-var variety22PlantsAchieved = true;
+var variety22PlantsAchieved = false;
 
 var tillAllTilesAchiMessage = "till every single tile";
-var tillAllTilesAchieved = true;
+var tillAllTilesAchieved = false;
 
 var water100CropsAchiMessage = "water 100 crops";
-var water100CropsAchieved = true;
+var water100CropsAchieved = false;
 
 var plant100CropsAchiMessage = "plant 100 crops";
-var plant100CropsAchieved = true;
+var plant100CropsAchieved = false;
 
 var water1000CropsAchiMessage = "water 1000 crops";
-var water1000CropsAchieved = true;
+var water1000CropsAchieved = false;
 
 var plant1000CropsAchiMessage = "plant 1000 crops";
-var plant1000CropsAchieved = true;
+var plant1000CropsAchieved = false;
 
 var coinAchi999TMessage = "get 999 trillion coins";
-var coinAchieved999T = true;
+var coinAchieved999T = false;
+
+
+
 
 const coinAchi1kBtnX = 140;
 const coinAchi1kBtnY = 170;
@@ -707,6 +711,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
     if (watered[mouseTileY][mouseTileX] === false) {
       watered[mouseTileY][mouseTileX] = true;
       waterTimers[mouseTileY][mouseTileX] = waterDuration;
+      numTimesWatered++;
       return;
     }
   }
@@ -783,7 +788,9 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
 
 
   if (coins >= cost) {
+
     plantSeed();
+    numTimesPlanted++;
 
     if (currentSeed === 1) growthTimers[mouseTileY][mouseTileX] = growthTimeCarrot;
     else if (currentSeed === 2) growthTimers[mouseTileY][mouseTileX] = growthTimeLettuce;
@@ -847,6 +854,57 @@ function formatMoney(amount) {
 
 
 
+
+function checkAchievements() {
+
+  if (coins >= 1000) coinAchieved1k = true;
+  if (coins >= 100000) coinAchieved100k = true;
+  if (coins >= 100000000) coinAchieved100m = true;
+  if (coins >= 100000000000) coinAchieved100b = true;
+  if (coins >= 999000000000000) coinAchieved999T = true;
+
+  let plantedTypes = new Set();
+  let tilledCount = 0;
+
+  for (let r = 0; r < numTilesY; r++) {
+    for (let c = 0; c < numTilesX; c++) {
+
+      if (seeds[r][c] !== 0) {
+        plantedTypes.add(seeds[r][c]);
+        plantedCount++;
+      }
+
+      if (watered[r][c] === true) wateredCount++;
+
+      if (untilled[r][c] === false && whatSquare(r,c) === "1") tilledCount++;
+    }
+  }
+
+  if (plantedTypes.has(5)) plantMarigoldAchieved = true;
+  if (plantedTypes.has(10)) plantCeleryAchieved = true;
+  if (plantedTypes.has(15)) plantTurnipAchieved = true;
+  if (plantedTypes.has(22)) plantEggplantAchieved = true;
+
+  if (plantedTypes.size >= 4) variety4PlantsAchieved = true;
+  if (plantedTypes.size >= 10) variety10PlantsAchieved = true;
+  if (plantedTypes.size >= 16) variety16PlantsAchieved = true;
+  if (plantedTypes.size >= 22) variety22PlantsAchieved = true;
+
+  let totalFarmTiles = 0;
+  for (let r = 0; r < numTilesY; r++) {
+    for (let c = 0; c < numTilesX; c++) {
+      if (whatSquare(r,c) === "1") totalFarmTiles++;
+    }
+  }
+
+  if (tilledCount >= totalFarmTiles) tillAllTilesAchieved = true;
+
+  if (numTimesWatered >= 100) water100CropsAchieved = true;
+  if (numTimesWatered >= 1000) water1000CropsAchieved = true;
+
+  if (numTimesPlanted >= 100) plant100CropsAchieved = true;
+  if (numTimesPlanted >= 1000) plant1000CropsAchieved = true;
+}
 
 
 
@@ -1816,6 +1874,79 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
 
 
 
+  //achi ccwapp
+
+  else if (isAchievementsOpen && mouseX >= coinAchi1kBtnX && mouseX <= coinAchi1kBtnX + coinAchi1kBtnSize && mouseY >= coinAchi1kBtnY && mouseY <= coinAchi1kBtnY + coinAchi1kBtnSize) {
+    btnTooltip = coinAchieved1k ? "get 1k coins" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= coinAchi100kBtnX && mouseX <= coinAchi100kBtnX + coinAchi100kBtnSize && mouseY >= coinAchi100kBtnY && mouseY <= coinAchi100kBtnY + coinAchi100kBtnSize) {
+    btnTooltip = coinAchieved100k ? "get 100k coins" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= coinAchi100mBtnX && mouseX <= coinAchi100mBtnX + coinAchi100mBtnSize && mouseY >= coinAchi100mBtnY && mouseY <= coinAchi100mBtnY + coinAchi100mBtnSize) {
+    btnTooltip = coinAchieved100m ? "get 100m coins" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= coinAchi100bBtnX && mouseX <= coinAchi100bBtnX + coinAchi100bBtnSize && mouseY >= coinAchi100bBtnY && mouseY <= coinAchi100bBtnY + coinAchi100bBtnSize) {
+    btnTooltip = coinAchieved100b ? "get 100b coins" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= coinAchi999TBtnX && mouseX <= coinAchi999TBtnX + coinAchi999TBtnSize && mouseY >= coinAchi999TBtnY && mouseY <= coinAchi999TBtnY + coinAchi999TBtnSize) {
+    btnTooltip = coinAchieved999T ? "get 999t coins" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= plantMarigoldAchiBtnX && mouseX <= plantMarigoldAchiBtnX + plantMarigoldAchiBtnSize && mouseY >= plantMarigoldAchiBtnY && mouseY <= plantMarigoldAchiBtnY + plantMarigoldAchiBtnSize) {
+    btnTooltip = plantMarigoldAchieved ? "plant a marigold" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= plantCeleryAchiBtnX && mouseX <= plantCeleryAchiBtnX + plantCeleryAchiBtnSize && mouseY >= plantCeleryAchiBtnY && mouseY <= plantCeleryAchiBtnY + plantCeleryAchiBtnSize) {
+    btnTooltip = plantCeleryAchieved ? "plant a celery" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= plantTurnipAchiBtnX && mouseX <= plantTurnipAchiBtnX + plantTurnipAchiBtnSize && mouseY >= plantTurnipAchiBtnY && mouseY <= plantTurnipAchiBtnY + plantTurnipAchiBtnSize) {
+    btnTooltip = plantTurnipAchieved ? "plant a turnip" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= plantEggplantAchiBtnX && mouseX <= plantEggplantAchiBtnX + plantEggplantAchiBtnSize && mouseY >= plantEggplantAchiBtnY && mouseY <= plantEggplantAchiBtnY + plantEggplantAchiBtnSize) {
+    btnTooltip = plantEggplantAchieved ? "plant an eggplant" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= variety4PlantsAchiBtnX && mouseX <= variety4PlantsAchiBtnX + variety4PlantsAchiBtnSize && mouseY >= variety4PlantsAchiBtnY && mouseY <= variety4PlantsAchiBtnY + variety4PlantsAchiBtnSize) {
+    btnTooltip = variety4PlantsAchieved ? "have 4 plant types" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= variety10PlantsAchiBtnX && mouseX <= variety10PlantsAchiBtnX + variety10PlantsAchiBtnSize && mouseY >= variety10PlantsAchiBtnY && mouseY <= variety10PlantsAchiBtnY + variety10PlantsAchiBtnSize) {
+    btnTooltip = variety10PlantsAchieved ? "have 10 plant types" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= variety16PlantsAchiBtnX && mouseX <= variety16PlantsAchiBtnX + variety16PlantsAchiBtnSize && mouseY >= variety16PlantsAchiBtnY && mouseY <= variety16PlantsAchiBtnY + variety16PlantsAchiBtnSize) {
+    btnTooltip = variety16PlantsAchieved ? "have 16 plant types" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= variety22PlantsAchiBtnX && mouseX <= variety22PlantsAchiBtnX + variety22PlantsAchiBtnSize && mouseY >= variety22PlantsAchiBtnY && mouseY <= variety22PlantsAchiBtnY + variety22PlantsAchiBtnSize) {
+    btnTooltip = variety22PlantsAchieved ? "have 22 plant types" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= tillAllTilesAchiBtnX && mouseX <= tillAllTilesAchiBtnX + tillAllTilesAchiBtnSize && mouseY >= tillAllTilesAchiBtnY && mouseY <= tillAllTilesAchiBtnY + tillAllTilesAchiBtnSize) {
+    btnTooltip = tillAllTilesAchieved ? "till every tile" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= water100CropsAchiBtnX && mouseX <= water100CropsAchiBtnX + water100CropsAchiBtnSize && mouseY >= water100CropsAchiBtnY && mouseY <= water100CropsAchiBtnY + water100CropsAchiBtnSize) {
+    btnTooltip = water100CropsAchieved ? "water 100 crops" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= water1000CropsAchiBtnX && mouseX <= water1000CropsAchiBtnX + water1000CropsAchiBtnSize && mouseY >= water1000CropsAchiBtnY && mouseY <= water1000CropsAchiBtnY + water1000CropsAchiBtnSize) {
+    btnTooltip = water1000CropsAchieved ? "water 1000 crops" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= plant100CropsAchiBtnX && mouseX <= plant100CropsAchiBtnX + plant100CropsAchiBtnSize && mouseY >= plant100CropsAchiBtnY && mouseY <= plant100CropsAchiBtnY + plant100CropsAchiBtnSize) {
+    btnTooltip = plant100CropsAchieved ? "plant 100 crops" : "???";
+  }
+
+  else if (isAchievementsOpen && mouseX >= plant1000CropsAchiBtnX && mouseX <= plant1000CropsAchiBtnX + plant1000CropsAchiBtnSize && mouseY >= plant1000CropsAchiBtnY && mouseY <= plant1000CropsAchiBtnY + plant1000CropsAchiBtnSize) {
+    btnTooltip = plant1000CropsAchieved ? "plant 1000 crops" : "???";
+}
 
 
   if (btnTooltip !== "") {
@@ -1913,5 +2044,9 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
 
   fill(0);
   text("FPS: " + fps.toFixed(), 1340, 20);
+
+
+  checkAchievements()
   
+  if(coins > 999990000000000){coins = 999990000000000}
 }
