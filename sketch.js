@@ -168,64 +168,69 @@ var pepperSprite, pepperGrown, pepperSeedIcon;
 var tomatoSprite, tomatoGrown, tomatoSeedIcon;
 var eggplantSprite, eggplantGrown, eggplantSeedIcon;
 
-var coinAchiIcon
-var blankAchiIcon
+var coinAchiIcon;
+var blankAchiIcon;
+var hoeAchiIcon;
+var waterAchiIcon
+
+
+
 
 //coin achivements for 100k coins 100m coins 100b coins and 100t coins and 999 T coins, (they all use the same icon:coin achi icon)
 
 var coinAchiMessage1k = "get 1k coins";
-var coinAchieved1k = false;
+var coinAchieved1k = true;
 
 var coinAchiMessage100k = "get 100k coins";
-var coinAchieved100k = false;
+var coinAchieved100k = true;
 
 var coinAchiMessage100m = "get 100M coins";
-var coinAchieved100m = false;
+var coinAchieved100m = true;
 
 var coinAchiMessage100b = "get 100B coins";
-var coinAchieved100b = false;
+var coinAchieved100b = true;
 
 var plantMarigoldAchiMessage = "plant a marigold";
-var plantMarigoldAchieved = false;
+var plantMarigoldAchieved = true;
 
 var plantCeleryAchiMessage = "plant a celery";
-var plantCeleryAchieved = false;
+var plantCeleryAchieved = true;
 
 var plantTurnipAchiMessage = "plant a turnip";
-var plantTurnipAchieved = false;
+var plantTurnipAchieved = true;
 
 var plantEggplantAchiMessage = "plant a eggplant";
-var plantEggplantAchieved = false;
+var plantEggplantAchieved = true;
 
 var variety4PlantsAchiMessage = "have 4 different plants planted";
-var variety4PlantsAchieved = false;
+var variety4PlantsAchieved = true;
 
 var variety10PlantsAchiMessage = "have 10 different plants planted";
-var variety10PlantsAchieved = false;
+var variety10PlantsAchieved = true;
 
 var variety16PlantsAchiMessage = "have 16 different plants planted";
-var variety16PlantsAchieved = false;
+var variety16PlantsAchieved = true;
 
 var variety22PlantsAchiMessage = "have 22 different plants planted";
-var variety22PlantsAchieved = false;
+var variety22PlantsAchieved = true;
 
 var tillAllTilesAchiMessage = "till every single tile";
-var tillAllTilesAchieved = false;
+var tillAllTilesAchieved = true;
 
 var water100CropsAchiMessage = "water 100 crops";
-var water100CropsAchieved = false;
+var water100CropsAchieved = true;
 
 var plant100CropsAchiMessage = "plant 100 crops";
-var plant100CropsAchieved = false;
+var plant100CropsAchieved = true;
 
 var water1000CropsAchiMessage = "water 1000 crops";
-var water1000CropsAchieved = false;
+var water1000CropsAchieved = true;
 
 var plant1000CropsAchiMessage = "plant 1000 crops";
-var plant1000CropsAchieved = false;
+var plant1000CropsAchieved = true;
 
 var coinAchi999TMessage = "get 999 trillion coins";
-var coinAchieved999T = false;
+var coinAchieved999T = true;
 
 const coinAchi1kBtnX = 140;
 const coinAchi1kBtnY = 170;
@@ -982,6 +987,10 @@ async function setup() {
 
   coinAchiIcon = await loadImage('assets/coinAchiIcon.png')
   blankAchiIcon = await loadImage('assets/blankAchiIcon.png')
+  varietyAchiIcon = await loadImage('assets/varietyAchiIcon.png')
+  hoeAchiIcon = await loadImage('assets/hoeAchiIcon.png')
+  waterAchiIcon = await loadImage('assets/waterAchiIcon.png')
+
 
 
   bgMusic.loop = true; 
@@ -1559,118 +1568,113 @@ function draw() {
 
   if (isAchievementsOpen) {
 
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+    if (coinAchieved1k) {
+      image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize, coinAchi1kBtnSize);
     } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
+      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize, coinAchi1kBtnSize);
     }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    if(coinAchieved1k){
-     image(coinAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    } else {
-      image(blankAchiIcon, coinAchi1kBtnX, coinAchi1kBtnY, coinAchi1kBtnSize , coinAchi1kBtnSize)
-    }
-    
-    
 
+    if (coinAchieved100k) {
+      image(coinAchiIcon, coinAchi100kBtnX, coinAchi100kBtnY, coinAchi100kBtnSize, coinAchi100kBtnSize);
+    } else {
+      image(blankAchiIcon, coinAchi100kBtnX, coinAchi100kBtnY, coinAchi100kBtnSize, coinAchi100kBtnSize);
+    }
 
+    if (coinAchieved100m) {
+      image(coinAchiIcon, coinAchi100mBtnX, coinAchi100mBtnY, coinAchi100mBtnSize, coinAchi100mBtnSize);
+    } else {
+      image(blankAchiIcon, coinAchi100mBtnX, coinAchi100mBtnY, coinAchi100mBtnSize, coinAchi100mBtnSize);
+    }
 
+    if (coinAchieved100b) {
+      image(coinAchiIcon, coinAchi100bBtnX, coinAchi100bBtnY, coinAchi100bBtnSize, coinAchi100bBtnSize);
+    } else {
+      image(blankAchiIcon, coinAchi100bBtnX, coinAchi100bBtnY, coinAchi100bBtnSize, coinAchi100bBtnSize);
+    }
+
+    if (plantMarigoldAchieved) {
+      image(marigoldSeedIcon, plantMarigoldAchiBtnX, plantMarigoldAchiBtnY, plantMarigoldAchiBtnSize, plantMarigoldAchiBtnSize);
+    } else {
+      image(blankAchiIcon, plantMarigoldAchiBtnX, plantMarigoldAchiBtnY, plantMarigoldAchiBtnSize, plantMarigoldAchiBtnSize);
+    }
+
+    if (plantCeleryAchieved) {
+      image(celerySeedIcon, plantCeleryAchiBtnX, plantCeleryAchiBtnY, plantCeleryAchiBtnSize, plantCeleryAchiBtnSize);
+    } else {
+      image(blankAchiIcon, plantCeleryAchiBtnX, plantCeleryAchiBtnY, plantCeleryAchiBtnSize, plantCeleryAchiBtnSize);
+    }
+
+    if (plantTurnipAchieved) {
+      image(turnipSeedIcon, plantTurnipAchiBtnX, plantTurnipAchiBtnY, plantTurnipAchiBtnSize, plantTurnipAchiBtnSize);
+    } else {
+      image(blankAchiIcon, plantTurnipAchiBtnX, plantTurnipAchiBtnY, plantTurnipAchiBtnSize, plantTurnipAchiBtnSize);
+    }
+
+    if (plantEggplantAchieved) {
+      image(eggplantSeedIcon, plantEggplantAchiBtnX, plantEggplantAchiBtnY, plantEggplantAchiBtnSize, plantEggplantAchiBtnSize);
+    } else {
+      image(blankAchiIcon, plantEggplantAchiBtnX, plantEggplantAchiBtnY, plantEggplantAchiBtnSize, plantEggplantAchiBtnSize);
+    }
+
+    if (variety4PlantsAchieved) {
+      image(varietyAchiIcon, variety4PlantsAchiBtnX, variety4PlantsAchiBtnY, variety4PlantsAchiBtnSize, variety4PlantsAchiBtnSize);
+    } else {
+      image(blankAchiIcon, variety4PlantsAchiBtnX, variety4PlantsAchiBtnY, variety4PlantsAchiBtnSize, variety4PlantsAchiBtnSize);
+    }
+
+    if (variety10PlantsAchieved) {
+      image(varietyAchiIcon, variety10PlantsAchiBtnX, variety10PlantsAchiBtnY, variety10PlantsAchiBtnSize, variety10PlantsAchiBtnSize);
+    } else {
+      image(blankAchiIcon, variety10PlantsAchiBtnX, variety10PlantsAchiBtnY, variety10PlantsAchiBtnSize, variety10PlantsAchiBtnSize);
+    }
+
+    if (variety16PlantsAchieved) {
+      image(varietyAchiIcon, variety16PlantsAchiBtnX, variety16PlantsAchiBtnY, variety16PlantsAchiBtnSize, variety16PlantsAchiBtnSize);
+    } else {
+      image(blankAchiIcon, variety16PlantsAchiBtnX, variety16PlantsAchiBtnY, variety16PlantsAchiBtnSize, variety16PlantsAchiBtnSize);
+    }
+
+    if (variety22PlantsAchieved) {
+      image(varietyAchiIcon, variety22PlantsAchiBtnX, variety22PlantsAchiBtnY, variety22PlantsAchiBtnSize, variety22PlantsAchiBtnSize);
+    } else {
+      image(blankAchiIcon, variety22PlantsAchiBtnX, variety22PlantsAchiBtnY, variety22PlantsAchiBtnSize, variety22PlantsAchiBtnSize);
+    }
+
+    if (tillAllTilesAchieved) {
+      image(hoeAchiIcon, tillAllTilesAchiBtnX, tillAllTilesAchiBtnY, tillAllTilesAchiBtnSize, tillAllTilesAchiBtnSize);
+    } else {
+      image(blankAchiIcon, tillAllTilesAchiBtnX, tillAllTilesAchiBtnY, tillAllTilesAchiBtnSize, tillAllTilesAchiBtnSize);
+    }
+
+    if (water100CropsAchieved) {
+      image(waterAchiIcon, water100CropsAchiBtnX, water100CropsAchiBtnY, water100CropsAchiBtnSize, water100CropsAchiBtnSize);
+    } else {
+      image(blankAchiIcon, water100CropsAchiBtnX, water100CropsAchiBtnY, water100CropsAchiBtnSize, water100CropsAchiBtnSize);
+    }
+
+    if (plant100CropsAchieved) {
+      image(hoeAchiIcon, plant100CropsAchiBtnX, plant100CropsAchiBtnY, plant100CropsAchiBtnSize, plant100CropsAchiBtnSize);
+    } else {
+      image(blankAchiIcon, plant100CropsAchiBtnX, plant100CropsAchiBtnY, plant100CropsAchiBtnSize, plant100CropsAchiBtnSize);
+    }
+
+    if (water1000CropsAchieved) {
+      image(waterAchiIcon, water1000CropsAchiBtnX, water1000CropsAchiBtnY, water1000CropsAchiBtnSize, water1000CropsAchiBtnSize);
+    } else {
+      image(blankAchiIcon, water1000CropsAchiBtnX, water1000CropsAchiBtnY, water1000CropsAchiBtnSize, water1000CropsAchiBtnSize);
+    }
+
+    if (plant1000CropsAchieved) {
+      image(hoeAchiIcon, plant1000CropsAchiBtnX, plant1000CropsAchiBtnY, plant1000CropsAchiBtnSize, plant1000CropsAchiBtnSize);
+    } else {
+      image(blankAchiIcon, plant1000CropsAchiBtnX, plant1000CropsAchiBtnY, plant1000CropsAchiBtnSize, plant1000CropsAchiBtnSize);
+    }
+
+    if (coinAchieved999T) {
+      image(coinAchiIcon, coinAchi999TBtnX, coinAchi999TBtnY, coinAchi999TBtnSize, coinAchi999TBtnSize);
+    } else {
+      image(blankAchiIcon, coinAchi999TBtnX, coinAchi999TBtnY, coinAchi999TBtnSize, coinAchi999TBtnSize);
+    }
 
   }
 
