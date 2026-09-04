@@ -174,6 +174,17 @@ var blankAchiIcon;
 var hoeAchiIcon;
 var waterAchiIcon
 
+var redFlower;
+
+var blueFlower;
+
+var yellowFlower;
+
+var smallRock;
+
+
+
+
 
 
 
@@ -466,15 +477,15 @@ const eggplantSeedBtnSize = 54;
 
 level = [ 
   "22222222222222222222", 
-  "00000000000000000000", 
+  "00000000000000000300", 
+  "03000000111111111110", 
+  "00000000000000000004", 
   "00000000111111111110", 
-  "00000000000000000000", 
+  "00000040000000000000", 
   "00000000111111111110", 
-  "00000000000000000000", 
+  "000300000050000000000", 
   "00000000111111111110", 
-  "00000000000000000000", 
-  "00000000111111111110", 
-  "00000000000000000000" 
+  "00000000004000000005" 
 ]; 
 
 function whatSquare(row, col) { 
@@ -521,7 +532,26 @@ function drawLevel() {
         
       } else if (squareType === "2") { 
         image(fenceSprite, x, y, tileSize, tileSize); 
+      }  else if (squareType === "3") { 
+        image(redFlower, x, y, tileSize, tileSize); 
+      } else if (squareType === "4") { 
+        image(blueFlower, x, y, tileSize, tileSize); 
+      } else if (squareType === "5") { 
+        image(yellowFlower, x, y, tileSize, tileSize); 
+      } else if (squareType === "6") { 
+        image(smallRock, x, y, tileSize, tileSize); 
       } 
+
+
+
+      
+
+
+
+
+
+
+
 
 
 
@@ -1172,6 +1202,17 @@ async function setup() {
   varietyAchiIcon = await loadImage('assets/varietyAchiIcon.png')
   hoeAchiIcon = await loadImage('assets/hoeAchiIcon.png')
   waterAchiIcon = await loadImage('assets/waterAchiIcon.png')
+
+
+
+  redFlower = await loadImage('assets/redFlower.png')
+
+  blueFlower = await loadImage('assets/blueFlower.png')
+
+  yellowFlower = await loadImage('assets/yellowFlower.png')
+
+
+
 
 
 
