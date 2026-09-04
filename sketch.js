@@ -12,8 +12,8 @@
 
 
 
-
-
+var wateredCount = 0;
+var plantedCount = 0;
 
 const numTilesX = 20; 
 const numTilesY = 10; 
@@ -863,6 +863,7 @@ function checkAchievements() {
   if (coins >= 100000000000) coinAchieved100b = true;
   if (coins >= 999000000000000) coinAchieved999T = true;
 
+ 
   let plantedTypes = new Set();
   let tilledCount = 0;
 
@@ -905,6 +906,129 @@ function checkAchievements() {
   if (numTimesPlanted >= 100) plant100CropsAchieved = true;
   if (numTimesPlanted >= 1000) plant1000CropsAchieved = true;
 }
+
+
+
+
+
+
+
+
+
+function saveGame() {
+  const data = {
+    coins,
+    currentSeed,
+    numTimesWatered,
+    numTimesPlanted,
+    seeds,
+    growthTimers,
+    watered,
+    waterTimers,
+    untilled,
+    coinAchieved1k,
+    coinAchieved100k,
+    coinAchieved100m,
+    coinAchieved100b,
+    coinAchieved999T,
+    plantMarigoldAchieved,
+    plantCeleryAchieved,
+    plantTurnipAchieved,
+    plantEggplantAchieved,
+    variety4PlantsAchieved,
+    variety10PlantsAchieved,
+    variety16PlantsAchieved,
+    variety22PlantsAchieved,
+    tillAllTilesAchieved,
+    water100CropsAchieved,
+    water1000CropsAchieved,
+    plant100CropsAchieved,
+    plant1000CropsAchieved
+  };
+
+  localStorage.setItem("farmSave", JSON.stringify(data));
+}
+
+
+function loadGame() {
+  const raw = localStorage.getItem("farmSave");
+  if (!raw) return;
+
+  const data = JSON.parse(raw);
+
+  coins = data.coins;
+  currentSeed = data.currentSeed;
+  numTimesWatered = data.numTimesWatered;
+  numTimesPlanted = data.numTimesPlanted;
+
+  seeds = data.seeds;
+  growthTimers = data.growthTimers;
+  watered = data.watered;
+  waterTimers = data.waterTimers;
+  untilled = data.untilled;
+
+  coinAchieved1k = data.coinAchieved1k;
+  coinAchieved100k = data.coinAchieved100k;
+  coinAchieved100m = data.coinAchieved100m;
+  coinAchieved100b = data.coinAchieved100b;
+  coinAchieved999T = data.coinAchieved999T;
+
+  plantMarigoldAchieved = data.plantMarigoldAchieved;
+  plantCeleryAchieved = data.plantCeleryAchieved;
+  plantTurnipAchieved = data.plantTurnipAchieved;
+  plantEggplantAchieved = data.plantEggplantAchieved;
+
+  variety4PlantsAchieved = data.variety4PlantsAchieved;
+  variety10PlantsAchieved = data.variety10PlantsAchieved;
+  variety16PlantsAchieved = data.variety16PlantsAchieved;
+  variety22PlantsAchieved = data.variety22PlantsAchieved;
+
+  tillAllTilesAchieved = data.tillAllTilesAchieved;
+  water100CropsAchieved = data.water100CropsAchieved;
+  water1000CropsAchieved = data.water1000CropsAchieved;
+  plant100CropsAchieved = data.plant100CropsAchieved;
+  plant1000CropsAchieved = data.plant1000CropsAchieved;
+}
+
+
+
+
+function wipeSave() {
+  const ok = confirm("Type YES to wipe your save.");
+  if (ok) {
+    const input = prompt("This will delete EVERYTHING. Type YES to confirm.");
+    if (input === "YES") {
+      localStorage.removeItem("farmSave");
+      location.reload();
+    }
+  }
+}
+
+
+
+
+
+//wipe save stuff idk
+
+let wipeKeys = { w:false, b:false, ctrl:false };
+
+document.addEventListener("keydown", e => {
+  if (e.key === "w") wipeKeys.w = true;
+  if (e.key === "b") wipeKeys.b = true;
+  if (e.ctrlKey) wipeKeys.ctrl = true;
+
+  if (wipeKeys.w && wipeKeys.b && wipeKeys.ctrl) {
+    wipeSave();
+  }
+});
+
+document.addEventListener("keyup", e => {
+  if (e.key === "w") wipeKeys.w = false;
+  if (e.key === "b") wipeKeys.b = false;
+  if (!e.ctrlKey) wipeKeys.ctrl = false;
+});
+
+
 
 
 
@@ -1094,7 +1218,7 @@ async function setup() {
 
 
 
-
+  loadGame();
 
 
 
@@ -2049,4 +2173,35 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
   checkAchievements()
   
   if(coins > 999990000000000){coins = 999990000000000}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if (frameCount % 180 === 0) saveGame(); 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
