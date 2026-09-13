@@ -2,10 +2,10 @@
 
 //hope you enjoy it!
 
-//ahhhhhhhh
+//ahhhh
 
+//
 
-//hehe
 
 
 
@@ -146,7 +146,7 @@ const waterDuration = 18100; // 5 minutes and a bit
 
 var currentSeed = 1; 
 
-var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite, highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow, carrotSeedIcon, lettuceSeedIcon, farmlandWateredSprite, carrotWatered, lettuceWatered; 
+var carrotSprite, lettuceSprite, grassSprite, farmlandSprite, fenceSprite,highlightSprite, rockSprite, customFont, carrotGrown, lettuceGrown, coinIcon, achievementsIcon, itemIcon, seedIcon, backIcon, shopWindow, carrotSeedIcon, lettuceSeedIcon, farmlandWateredSprite, carrotWatered, lettuceWatered; 
 
 var potatoSprite, potatoGrown, potatoSeedIcon;
 var broccoliSprite, broccoliGrown, broccoliSeedIcon;
@@ -182,7 +182,7 @@ var yellowFlower;
 
 var smallRock;
 
-
+var popSound, popSound2, tillSound, waterSound, plantSound, bgAudioLoop;
 
 
 
@@ -697,21 +697,40 @@ function drawLevel() {
 
 function plantSeed() { 
   seeds[mouseTileY][mouseTileX] = currentSeed; 
+  playSound(plantSound);
 } 
+
+function playSound(sound) {
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play();
+  }
+}
 
 
 
 function mousePressed() { 
-  if (bgMusic && !audioStarted) { 
-    bgMusic.play(); 
+  if (bgMusic && bgAudioLoop && !audioStarted) { 
+    bgMusic.volume = 0.125;
+    bgAudioLoop.volume = 1;
+    bgMusic.play();
+    bgAudioLoop.play();
     audioStarted = true; 
   } 
   if (isShopOpen) {
     if (mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
       isShopOpen = false; 
-     
+      playSound(popSound2);
       return; 
     }
+  }
+
+  if (isAchievementsOpen &&
+      mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize &&
+      mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
+    isAchievementsOpen = false;
+    playSound(popSound2);
+    return;
   }
 
  
@@ -721,6 +740,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
 
     isAchievementsOpen = true;
     isShopOpen = false;  
+    playSound(popSound);
     return;
 }
 
@@ -728,6 +748,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
   if (mouseX >= seedBtnX && mouseX <= seedBtnX + seedBtnSize && mouseY >= seedBtnY && mouseY <= seedBtnY + seedBtnSize) { 
     isAchievementsOpen = false;
     isShopOpen = true; 
+    playSound(popSound);
     return; 
   } 
 
@@ -742,6 +763,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
       watered[mouseTileY][mouseTileX] = true;
       waterTimers[mouseTileY][mouseTileX] = waterDuration;
       numTimesWatered++;
+      playSound(waterSound);
       return;
     }
   }
@@ -751,6 +773,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
     if (coins >= 10000) {
       untilled[mouseTileY][mouseTileX] = false;
       coins -= 10000;
+      playSound(tillSound);
     }
     return;
   }
@@ -784,6 +807,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
 
 
       seeds[mouseTileY][mouseTileX] = 0;
+      playSound(plantSound);
     }
     return;
   }
@@ -1106,10 +1130,15 @@ async function setup() {
   lettuceSeedIcon = await loadImage('assets/lettuceSeedIcon.png');
   carrotSeedIcon = await loadImage('assets/carrotSeedIcon.png');
   farmlandWateredSprite = await loadImage('assets/farmlandWatered.png');
+
   bgMusic = new Audio('assets/bgMusic.wav'); 
-
-
-
+  popSound  = new Audio('assets/pop.mp3');
+  popSound2  = new Audio('assets/pop2.mp3');
+  tillSound  = new Audio('assets/tillSound.mp3');
+  waterSound  = new Audio('assets/waterSound.mp3');
+  plantSound  = new Audio('assets/plantSound.mp3');
+  bgAudioLoop  = new Audio('assets/bgAudioLoop.mp3');
+  
 
   potatoGrown = await loadImage('assets/potato.png');
   potatoSprite = await loadImage('assets/potatoSeed.png');
@@ -1218,7 +1247,9 @@ async function setup() {
 
 
   bgMusic.loop = true; 
-  bgMusic.volume = 0.5; 
+  bgMusic.volume = 0.125; 
+  bgAudioLoop.loop = true;
+  bgAudioLoop.volume = 1;
 
   for (let row = 0; row < numTilesY; row++) { 
     seeds[row] = []; 
