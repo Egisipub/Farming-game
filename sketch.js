@@ -4,7 +4,7 @@
 
 //ahhhh
 
-//
+//I in fact did do it till 2, im gonna do like an hr ish more reasearch after i eat and then try and build one!
 
 
 
@@ -182,9 +182,9 @@ var yellowFlower;
 
 var smallRock;
 
-var popSound, popSound2, tillSound, waterSound, plantSound, bgAudioLoop;
+var popSound, popSound2, tillSound, waterSound, plantSound, bgAudioLoop, chingSound;
 
-
+var dirtParticle, waterParticle;
 
 
 
@@ -467,8 +467,8 @@ const eggplantSeedBtnSize = 54;
 
 
 
-
-
+let dirtParticles = [];
+let waterParticles = [];
 
 
 
@@ -542,6 +542,7 @@ function drawLevel() {
         image(smallRock, x, y, tileSize, tileSize); 
       } 
 
+      
 
 
       
@@ -707,7 +708,28 @@ function playSound(sound) {
   }
 }
 
+function spawnDirtBurst(tileX, tileY) {
 
+  let baseX = tileX * tileSize + tileSize / 2;
+  let baseY = tileY * tileSize + tileSize / 2;
+
+  for (let i = 0; i < 12; i++) {
+    dirtParticles.push(new DirtParticle(baseX, baseY));
+  }
+
+}
+
+
+function spawnWaterBurst(tileX, tileY) {
+
+  let baseX = tileX * tileSize + tileSize / 2;
+  let baseY = tileY * tileSize + tileSize / 2;
+
+  for (let i = 0; i < 12; i++) {
+    waterParticles.push(new WaterParticle(baseX, baseY));
+  }
+
+}
 
 function mousePressed() { 
   if (bgMusic && bgAudioLoop && !audioStarted) { 
@@ -764,6 +786,8 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
       waterTimers[mouseTileY][mouseTileX] = waterDuration;
       numTimesWatered++;
       playSound(waterSound);
+      spawnWaterBurst(mouseTileX, mouseTileY);
+      
       return;
     }
   }
@@ -774,6 +798,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
       untilled[mouseTileY][mouseTileX] = false;
       coins -= 10000;
       playSound(tillSound);
+      
     }
     return;
   }
@@ -807,7 +832,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
 
 
       seeds[mouseTileY][mouseTileX] = 0;
-      playSound(plantSound);
+      playSound(chingSound);
     }
     return;
   }
@@ -844,6 +869,8 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize &&
   if (coins >= cost) {
 
     plantSeed();
+    spawnDirtBurst(mouseTileX, mouseTileY);
+
     numTimesPlanted++;
 
     if (currentSeed === 1) growthTimers[mouseTileY][mouseTileX] = growthTimeCarrot;
@@ -901,9 +928,87 @@ function formatMoney(amount) {
 } 
 
 
+class DirtParticle {
+  constructor(x, y){
+    this.x = x - 1;
+    this.y = y - 1;
+
+    
+    let angle = random(0, TWO_PI);
+
+    
+    let speed = random(1, 4);
+
+    
+    this.vx = cos(angle) * speed;
+    this.vy = sin(angle) * speed;
+
+    this.life = 25; 
+    this.size = random(18, 28);
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    
+    this.vx *= 0.9;
+    this.vy *= 0.9;
+
+    this.life--;
+  }
+
+  draw(){
+    image(dirtParticle, this.x, this.y, this.size, this.size);
+  }
+
+  isDead() {
+    return this.life <= 0;
+  }
 
 
+}
 
+class WaterParticle {
+  constructor(x, y){
+    this.x = x - 1;
+    this.y = y - 1;
+
+    
+    let angle = random(0, TWO_PI);
+
+    
+    let speed = random(1, 4);
+
+    
+    this.vx = cos(angle) * speed;
+    this.vy = sin(angle) * speed;
+
+    this.life = 25; 
+    this.size = random(18, 28);
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    
+    this.vx *= 0.9;
+    this.vy *= 0.9;
+
+    this.life--;
+  }
+
+  draw(){
+    image(waterParticle, this.x, this.y, this.size, this.size);
+  }
+
+  isDead() {
+    return this.life <= 0;
+  }
+
+
+}
 
 
 
@@ -1131,14 +1236,14 @@ async function setup() {
   carrotSeedIcon = await loadImage('assets/carrotSeedIcon.png');
   farmlandWateredSprite = await loadImage('assets/farmlandWatered.png');
 
-  bgMusic = new Audio('assets/bgMusic.wav'); 
+  bgMusic = new Audio('assets/bgMusic.mp3'); 
   popSound  = new Audio('assets/pop.mp3');
   popSound2  = new Audio('assets/pop2.mp3');
   tillSound  = new Audio('assets/tillSound.mp3');
   waterSound  = new Audio('assets/waterSound.mp3');
   plantSound  = new Audio('assets/plantSound.mp3');
   bgAudioLoop  = new Audio('assets/bgAudioLoop.mp3');
-  
+  chingSound  = new Audio('assets/chingSound.mp3');
 
   potatoGrown = await loadImage('assets/potato.png');
   potatoSprite = await loadImage('assets/potatoSeed.png');
@@ -1243,8 +1348,8 @@ async function setup() {
   smallRock = await loadImage('assets/smallRock.png')
 
 
-
-
+  dirtParticle = await loadImage("assets/dirtParticle.png")
+  waterParticle = await loadImage("assets/waterParticle.png")
 
   bgMusic.loop = true; 
   bgMusic.volume = 0.125; 
@@ -2249,10 +2354,20 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
 
 
 
+  for (let p of dirtParticles) {
+    p.update();
+    p.draw();
+  }
+
+  dirtParticles = dirtParticles.filter(p => !p.isDead());
 
 
+  for (let p of waterParticles) {
+    p.update();
+    p.draw();
+  }
 
-
+  waterParticles = waterParticles.filter(p => !p.isDead());
 
 
 
