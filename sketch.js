@@ -4,14 +4,20 @@
 
 //ahhhh
 
-//I in fact did do it till 2, im gonna do like an hr ish more reasearch after i eat and then try and build one!
+//I made particles :)
 
 
 
 
+var showWelcome = true;
+var welcomeFade = 555;   
+var blackFade = 0;       
+var transitioning = false;
+
+var audioFadeIn = 0; 
 
 
-
+var enterpPressed = false;
 
 var wateredCount = 0;
 var plantedCount = 0;
@@ -140,7 +146,7 @@ const waterDuration = 18100; // 5 minutes and a bit
 
 
 
-
+var haveSaved = false;
 
 
 
@@ -732,13 +738,7 @@ function spawnWaterBurst(tileX, tileY) {
 }
 
 function mousePressed() { 
-  if (bgMusic && bgAudioLoop && !audioStarted) { 
-    bgMusic.volume = 0.125;
-    bgAudioLoop.volume = 1;
-    bgMusic.play();
-    bgAudioLoop.play();
-    audioStarted = true; 
-  } 
+  
   if (isShopOpen) {
     if (mouseX >= backBtnX && mouseX <= backBtnX + backBtnSize && mouseY >= backBtnY && mouseY <= backBtnY + backBtnSize) {
       isShopOpen = false; 
@@ -1102,10 +1102,13 @@ function saveGame() {
     water100CropsAchieved,
     water1000CropsAchieved,
     plant100CropsAchieved,
+    haveSaved,
     plant1000CropsAchieved
   };
 
   localStorage.setItem("farmSave", JSON.stringify(data));
+
+  haveSaved = true;
 }
 
 
@@ -1147,6 +1150,8 @@ function loadGame() {
   water1000CropsAchieved = data.water1000CropsAchieved;
   plant100CropsAchieved = data.plant100CropsAchieved;
   plant1000CropsAchieved = data.plant1000CropsAchieved;
+
+  haveSaved = data.haveSaved;
 }
 
 
@@ -1422,6 +1427,84 @@ async function setup() {
 
 
 function draw() { 
+
+
+
+
+
+
+
+
+
+
+
+  if (showWelcome) {
+    
+    fill(255, welcomeFade);
+    rect(0, 0, width, height);
+
+    
+    fill(0, welcomeFade);
+    textAlign(CENTER, CENTER);
+    textFont(customFont); 
+
+    textSize(64);
+    text("Welcome Back", width/2, height/2 - 40);
+
+    textSize(32);
+    text("Press [Enter]", width/2, height/2 + 40);
+
+    
+    if (keyIsDown(ENTER)) {
+        transitioning = true;
+    }
+
+    if (transitioning) {
+        welcomeFade -= 10;
+        if (welcomeFade <= 0) {
+            welcomeFade = 0;
+            blackFade += 10;
+        }
+
+        if (blackFade >= 255) {
+            blackFade = 255;
+            showWelcome = false;
+            transitioning = false;
+
+            audioFadeIn = 0; 
+            if (bgMusic) {
+                bgMusic.volume = 0;
+                bgMusic.play();
+            }
+
+            if (bgAudioLoop) {
+                bgAudioLoop.volume = 0;
+                bgAudioLoop.play();
+            }
+
+            audioStarted = true;
+        }
+    }
+
+    
+    if (blackFade > 0) {
+        fill(0, blackFade);
+        rect(0, 0, width, height);
+    }
+
+    return; 
+  }
+
+  if (!showWelcome && audioFadeIn < 1) {
+    audioFadeIn += 0.01; // adjust speed here (0.01 = ~2 seconds)
+
+    if (audioFadeIn > 1) audioFadeIn = 1;
+
+    if (bgMusic) bgMusic.volume = audioFadeIn * 0.125;   // your normal volume
+    if (bgAudioLoop) bgAudioLoop.volume = audioFadeIn * 1; // your normal volume
+  }
+
+
   background(220); 
   textFont(customFont); 
   drawLevel(); 
@@ -2377,7 +2460,7 @@ if (mouseX >= achiBtnX && mouseX <= achiBtnX + achiBtnSize && mouseY >= achiBtnY
 
 
 
-  if (frameCount % 180 === 0) saveGame(); 
+  if (frameCount % 180 === 0 && haveSaved) saveGame(); 
   
 
 
